@@ -1,0 +1,35 @@
+= semantic_form_for [:admin, @page], html: { multipart: true } do |f|
+
+  - @page.initialize_missing_translations
+
+  .language-tabs
+    %ul.language-selection
+      %li= link_to I18n.locale, "#lang-#{I18n.locale}"
+      - @page.translations.each do |translation|
+        - unless translation.locale == I18n.locale
+          %li= link_to translation.locale, "#lang-#{translation.locale}"
+
+    %div{id: "lang-#{I18n.locale}"}
+      = f.inputs "#{I18n.locale} Text" do
+        %ol
+          %li= f.input :title
+          %li= f.input :browser_title
+          %li= f.input :meta_keywords
+          %li= f.input :meta_description
+
+    = f.semantic_fields_for :translations do |tf|
+      - unless tf.object.locale == I18n.locale
+        = tf.inputs "#{tf.object.locale} Text" do
+          %ol
+            %li= tf.input :title
+            %li= tf.input :browser_title
+            %li= tf.input :meta_keywords
+            %li= tf.input :meta_description
+            %li= tf.input :locale, :as => :hidden
+
+    = f.actions
+
+:javascript
+  $(function() {
+        $( ".language-tabs" ).tabs();
+    });
