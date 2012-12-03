@@ -5,8 +5,8 @@ class CreateActiveadminSelleoCmsLocales < ActiveRecord::Migration
       t.string :code
       t.boolean :enabled, default: false
     end
-    add_index :locales, :name
-    add_index :locales, :code
-    add_index :locales, :enabled
+    add_index :activeadmin_selleo_cms_locales, :name
+    add_index :activeadmin_selleo_cms_locales, :code
+    add_index :activeadmin_selleo_cms_locales, :enabled
   end
 end
