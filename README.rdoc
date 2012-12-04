@@ -1,3 +1,13 @@
 = ActiveadminSelleoCms
 
-This project rocks and uses MIT-LICENSE.
+First install ActiveAdmin.
+
+  gem 'activeadmin-selleo-cms'
+
+  bundle install
+
+  rake
+
+  rake activeadmin_translator:install:migrations
+
+  rake db:migrate
