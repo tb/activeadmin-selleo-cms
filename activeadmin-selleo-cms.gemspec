@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = ActiveadminSelleoCms::VERSION
   s.authors     = ["Adrian Ossowski"]
   s.email       = ["aossowski@gmail.com"]
-  s.homepage    = "www.selleo.com"
+  s.homepage    = "http://www.selleo.com"
   s.summary     = "ActiveAdmin CMS extension"
   s.description = "ActiveAdmin CMS extension"
 
