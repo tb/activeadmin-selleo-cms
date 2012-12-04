@@ -8,6 +8,6 @@ First install ActiveAdmin.
 
   rake
 
-  rake activeadmin_translator:install:migrations
+  rake activeadmin_selleo_cms:install:migrations
 
   rake db:migrate
