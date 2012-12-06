@@ -10,4 +10,21 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page" do
       links << link_to(I18n.t('active_admin.delete'), resource_path(resource), :method => :delete, :data => {:confirm => I18n.t('active_admin.delete_confirmation')}, :class => "member_link delete_link")
     end
   end
+
+  controller do
+    def create
+      create! do |success, failure|
+        success.html { redirect_to admin_pages_path }
+        failure.html { render action: :new  }
+      end
+    end
+
+    def update
+      update! do |success, failure|
+          success.html { redirect_to admin_pages_path }
+          failure.html { render action: :edit  }
+      end
+    end
+  end
+
 end
