@@ -22,6 +22,8 @@ Gem::Specification.new do |s|
   s.add_dependency "globalize3"
   s.add_dependency "ckeditor"
   s.add_dependency "paperclip"
+  s.add_dependency "language_list"
+  s.add_dependency "haml"
 
   #s.add_development_dependency "sqlite3"
 end

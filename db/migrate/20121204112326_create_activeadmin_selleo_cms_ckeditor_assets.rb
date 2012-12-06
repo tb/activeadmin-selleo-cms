@@ -1,4 +1,4 @@
-class CreateCkeditorAssets < ActiveRecord::Migration
+class CreateActiveadminSelleoCmsCkeditorAssets < ActiveRecord::Migration
   def self.up
     create_table :activeadmin_selleo_cms_ckeditor_assets do |t|
       t.string  :data_file_name, :null => false

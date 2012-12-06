@@ -1,20 +1,23 @@
 = semantic_form_for [:admin, @page], html: { multipart: true } do |f|
 
   - @page.initialize_missing_translations
+  - current_locale = ActiveadminSelleoCms::Locale.find_by_code(I18n.locale)
 
   .language-tabs
     %ul.language-selection
-      %li= link_to I18n.locale, "#lang-#{I18n.locale}"
+      %li= link_to current_locale.name, "#lang-#{current_locale.code}"
       - @page.translations.each do |translation|
-        - unless translation.locale == I18n.locale
-          %li= link_to translation.locale, "#lang-#{translation.locale}"
+        - unless translation.locale == current_locale.code
+          - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translation.locale)
+          %li= link_to additional_locale.name, "#lang-#{additional_locale.code}"
 
-    %div{id: "lang-#{I18n.locale}"}
-      = render partial: 'fields', locals: { locale: I18n.locale, f: f }
+    %div{id: "lang-#{current_locale.code}"}
+      = render partial: 'fields', locals: { locale: current_locale, f: f }
 
     = f.semantic_fields_for :translations do |tf|
-      - unless tf.object.locale == I18n.locale
-        = render partial: 'fields', locals: { locale: tf.object.locale, f: tf }
+      - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(tf.object.locale)
+      %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
+        = render partial: 'fields', locals: { locale: additional_locale, f: tf }
 
     = f.actions
 

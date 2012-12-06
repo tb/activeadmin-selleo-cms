@@ -8,8 +8,6 @@ module ActiveadminSelleoCms
     scope :enabled, where(:enabled => true)
     scope :available_locales, enabled
 
-    default_scope order("activeadmin_selleo_cms_locales.name ASC")
-
     def to_s
       code
     end

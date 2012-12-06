@@ -1,0 +1,9 @@
+<script>
+    $('#locales.index input').change(function(evt){
+        $.ajax({
+            url: $(evt.target).data('route') + '.js',
+            type: 'PUT',
+            data: { 'locale': { 'enabled': $(evt.target).is(':checked') } }
+        })
+    });
+</script>
