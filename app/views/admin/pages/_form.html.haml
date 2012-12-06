@@ -23,5 +23,10 @@
 
 :javascript
   $(function() {
-        $( ".language-tabs" ).tabs();
+        $(".language-tabs").tabs();
+        $("input#page_title").blur(function(evt){
+          if ($("input#page_slug").attr('value') == '') {
+            $("input#page_slug").attr('value', slug($("input#page_title").attr('value')) )
+          }
+        });
     });
