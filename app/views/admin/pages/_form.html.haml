@@ -19,7 +19,11 @@
       %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
         = render partial: 'fields', locals: { locale: additional_locale, f: tf }
 
-    = f.actions
+    = f.actions do
+      = f.action :submit
+      %li.cancel
+        = link_to I18n.t('active_admin.cancel'), admin_pages_path
+
 
 :javascript
   $(function() {
