@@ -1,9 +1,0 @@
-= f.inputs "#{locale.name} translation" do
-  %ol
-    %li= f.input :title
-    %li= f.input :slug
-    %li= f.input :browser_title
-    %li= f.input :meta_keywords
-    %li= f.input :meta_description, as: :ckeditor, input_html: { toolbar: "Full" }
-    - if f.object.respond_to? :locale
-      = f.input :locale, :as => :hidden, :label => false

@@ -1,7 +1,12 @@
-= semantic_form_for [:admin, @page], html: { multipart: true } do |f|
+= semantic_form_for [:admin, @page], html: { multipart: true } do |form|
 
   - @page.initialize_missing_translations
   - current_locale = ActiveadminSelleoCms::Locale.find_by_code(I18n.locale)
+  - @page.initialize_missing_parts
+  - @page_part_forms = []
+
+  = form.inputs "General options" do
+    = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
 
   .language-tabs
     %ul.language-selection
@@ -12,15 +17,15 @@
           %li= link_to additional_locale.name, "#lang-#{additional_locale.code}"
 
     %div{id: "lang-#{current_locale.code}"}
-      = render partial: 'fields', locals: { locale: current_locale, f: f }
+      = render partial: 'fields_current_locale', locals: { locale: current_locale, form: form }
 
-    = f.semantic_fields_for :translations do |tf|
-      - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(tf.object.locale)
+    = form.semantic_fields_for :translations do |translated_form|
+      - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translated_form.object.locale)
       %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
-        = render partial: 'fields', locals: { locale: additional_locale, f: tf }
+        = render partial: 'fields_additional_locale', locals: { locale: additional_locale, form: translated_form }
 
-    = f.actions do
-      = f.action :submit
+    = form.actions do
+      = form.action :submit
       %li.cancel
         = link_to I18n.t('active_admin.cancel'), admin_pages_path
 

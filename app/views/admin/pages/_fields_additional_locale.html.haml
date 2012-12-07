@@ -1,0 +1,17 @@
+- @page.page_parts.each do |page_part|
+  - page_part.initialize_missing_translations
+= form.inputs "#{locale.name} translation" do
+  %ol
+    = form.input :title
+    = form.input :slug
+    = form.input :browser_title
+    = form.input :meta_keywords
+    = form.input :meta_description, input_html: { rows: 3 }
+    = form.input :locale, :as => :hidden, :label => false
+    - @page_part_forms.each do |page_part_form|
+      = page_part_form.semantic_fields_for :translations do |page_part_form_translated|
+        - if page_part_form_translated.object.locale.to_sym == locale.code
+          = page_part_form_translated.input :body, as: :ckeditor, label: "#{page_part_form.object.name.titleize} part", input_html: { toolbar: "Full" }
+          = page_part_form_translated.input :locale, :as => :hidden, :label => false
+        - else
+          = ""
