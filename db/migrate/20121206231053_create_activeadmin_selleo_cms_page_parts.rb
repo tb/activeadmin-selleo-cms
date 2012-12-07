@@ -6,6 +6,8 @@ class CreateActiveadminSelleoCmsPageParts < ActiveRecord::Migration
       t.belongs_to :page
       t.timestamps
     end
+    add_index :activeadmin_selleo_cms_page_parts, :name
+
     ActiveadminSelleoCms::PagePart.create_translation_table! body: :text
   end
 end

@@ -7,12 +7,19 @@ module ActiveadminSelleoCms
     attr_protected :id
 
     has_many :page_parts
+    belongs_to :layout
 
     accepts_nested_attributes_for :translations, :page_parts
+
+    delegate :part_names, to: :layout
 
     validates_presence_of :title, :slug
     validates_uniqueness_of :slug
     validates_format_of :slug, with: /^[a-z0-9\-_]+$/i
+
+    after_initialize do
+      self.layout = Layout.first unless layout
+    end
 
     def initialize_missing_translations
       Locale.available_locale_codes.each do |locale_code|
@@ -26,9 +33,8 @@ module ActiveadminSelleoCms
       end
     end
 
-    # TODO:  hardcoded for now
-    def part_names
-      ['main']
+    def to_s
+      title
     end
 
     class Translation

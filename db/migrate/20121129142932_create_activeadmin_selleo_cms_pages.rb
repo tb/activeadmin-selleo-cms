@@ -10,8 +10,11 @@ class CreateActiveadminSelleoCmsPages < ActiveRecord::Migration
       t.integer :lft
       t.integer :rgt
       t.integer :depth
+      t.integer :layout_id
       t.timestamps
     end
+    add_index :activeadmin_selleo_cms_pages, :slug
+
     ActiveadminSelleoCms::Page.create_translation_table! title: :string, slug: :string, browser_title: :string, meta_keywords: :string, meta_description: :text
   end
 end

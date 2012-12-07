@@ -1,0 +1,12 @@
+= javascript_include_tag "activeadmin-selleo-cms/jquery.mjs.nestedSortable"
+
+:javascript
+    $(document).ready(function(){
+
+        $('.sortable').nestedSortable({
+            handle: 'div',
+            items: 'li',
+            toleranceElement: '> div'
+        });
+
+    });

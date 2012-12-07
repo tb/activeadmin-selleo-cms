@@ -9,7 +9,7 @@ class CreateActiveadminSelleoCmsLocales < ActiveRecord::Migration
     add_index :activeadmin_selleo_cms_locales, :code
     add_index :activeadmin_selleo_cms_locales, :enabled
     LanguageList::COMMON_LANGUAGES.each do |lang|
-      ActiveadminSelleoCms::Locale.create({name: lang.name, code: lang.iso_639_1, enabled: ['en','da'].include?(lang.iso_639_1)}, as: :admin)
+      ActiveadminSelleoCms::Locale.create({name: lang.name, code: lang.iso_639_1, enabled: ['en'].include?(lang.iso_639_1)}, as: :admin)
     end
   end
 

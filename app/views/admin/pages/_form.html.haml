@@ -7,6 +7,7 @@
 
   = form.inputs "General options" do
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
+    = form.input :layout
 
   .language-tabs
     %ul.language-selection
