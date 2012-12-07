@@ -33,9 +33,11 @@
 :javascript
   $(function() {
         $(".language-tabs").tabs();
-        $("input#page_title").blur(function(evt){
-          if ($("input#page_slug").attr('value') == '') {
-            $("input#page_slug").attr('value', slug($("input#page_title").attr('value')) )
+
+        $("input[id$='_title']").blur(function(){
+        slugId = '#' + $(this).attr('id').replace('_title', '_slug');
+          if ($(slugId).attr('value') == '') {
+            $(slugId).attr('value', slug($(this).attr('value')) )
           }
         });
     });
