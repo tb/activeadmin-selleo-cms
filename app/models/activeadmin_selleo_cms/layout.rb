@@ -21,7 +21,8 @@ module ActiveadminSelleoCms
     end
 
     def part_names
-      ::Liquid::Template.parse(template).root.nodelist.select{|n| n.is_a? ::Liquid::Variable}.map(&:name)
+      ::Liquid::Template.parse(template).root.nodelist.
+          select{|node| node.is_a?(::Liquid::Variable) and node.name.match(/\w+_part/)}.map(&:name)
     end
 
     class Translation

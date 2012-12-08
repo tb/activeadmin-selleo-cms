@@ -37,6 +37,19 @@ module ActiveadminSelleoCms
       title
     end
 
+    def render
+      ::Liquid::Template.parse(layout.template).
+          render(Hash[part_names.map{|part_name| [part_name, render_part(part_name)] }])
+    end
+
+    def render_part(part_name)
+      if pp = page_parts.find_by_name(part_name)
+        pp.body
+      else
+        "---"
+      end
+    end
+
     class Translation
       attr_protected :id
 

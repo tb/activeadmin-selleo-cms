@@ -2,7 +2,7 @@ class CreateActiveadminSelleoCmsPageParts < ActiveRecord::Migration
   def change
     create_table :activeadmin_selleo_cms_page_parts do |t|
       t.string :name, :null => false
-      t.string :body
+      t.text :body
       t.belongs_to :page
       t.timestamps
     end
