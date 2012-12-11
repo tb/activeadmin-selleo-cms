@@ -11,6 +11,8 @@ class CreateActiveadminSelleoCmsPages < ActiveRecord::Migration
       t.integer :rgt
       t.integer :depth
       t.integer :layout_id
+      t.boolean :show_in_menu, :default => true
+      t.datetime :published_at
       t.timestamps
     end
     add_index :activeadmin_selleo_cms_pages, :slug

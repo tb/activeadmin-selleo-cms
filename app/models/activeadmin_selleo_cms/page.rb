@@ -12,6 +12,7 @@ module ActiveadminSelleoCms
     accepts_nested_attributes_for :translations, :page_parts
 
     delegate :part_names, to: :layout
+    delegate :menus, to: :layout
 
     validates_presence_of :title, :slug
     validates_uniqueness_of :slug
@@ -39,15 +40,11 @@ module ActiveadminSelleoCms
 
     def render
       ::Liquid::Template.parse(layout.template).
-          render(Hash[part_names.map{|part_name| [part_name, render_part(part_name)] }])
+          render(render_page_parts)
     end
 
-    def render_part(part_name)
-      if pp = page_parts.find_by_name(part_name)
-        pp.body
-      else
-        "---"
-      end
+    def render_page_parts
+      Hash[page_parts.find_all_by_name(part_names).map{|page_part| [page_part.name, page_part.render]}]
     end
 
     class Translation

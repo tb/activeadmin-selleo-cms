@@ -17,6 +17,10 @@ module ActiveadminSelleoCms
       end
     end
 
+    def render
+      body
+    end
+
     class Translation
       attr_protected :id
     end
