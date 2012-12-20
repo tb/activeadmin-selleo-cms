@@ -1,1 +1,1 @@
-= @page.render.html_safe
+- @page.page_parts.each{|page_part| content_for page_part.name.to_sym }

@@ -1,11 +1,18 @@
-ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page" do
+ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_asc" do
   config.batch_actions = false
 
   form :partial => "form"
 
   index do
-    column :id
+    column do |resource|
+      if resource.root?
+        "|"
+      else
+        "#{' ' * resource.depth}\\-"
+      end
+    end
     column :title
+    column :show_in_menu
     column :created_at
     column :updated_at
     column :actions do |resource|

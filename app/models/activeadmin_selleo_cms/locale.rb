@@ -16,6 +16,10 @@ module ActiveadminSelleoCms
       read_attribute(:code).to_sym
     end
 
+    def url
+      "/#{code}"
+    end
+
     class << self
       def except(sym)
         enabled.map(&code).reject(sym)

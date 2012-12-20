@@ -1,5 +1,7 @@
 module ActiveadminSelleoCms
   class Page < ActiveRecord::Base
+    include ContentTranslation
+
     translates :title, :slug, :browser_title, :meta_keywords, :meta_description
 
     acts_as_nested_set
@@ -7,25 +9,18 @@ module ActiveadminSelleoCms
     attr_protected :id
 
     has_many :page_parts
-    belongs_to :layout
 
-    accepts_nested_attributes_for :translations, :page_parts
+    accepts_nested_attributes_for :translations, :page_parts, :children
 
-    delegate :part_names, to: :layout
-    delegate :menus, to: :layout
-
-    validates_presence_of :title, :slug
+    validates_presence_of :title, :slug, :layout
     validates_uniqueness_of :slug
     validates_format_of :slug, with: /^[a-z0-9\-_]+$/i
 
-    after_initialize do
-      self.layout = Layout.first unless layout
-    end
+    scope :show_in_menu, where(show_in_menu: true)
 
-    def initialize_missing_translations
-      Locale.available_locale_codes.each do |locale_code|
-        translations.build(locale: locale_code) unless translations.detect{|t| t.locale == locale_code}
-      end
+    before_validation do
+      self.slug = self.title.parameterize if title and slug.blank?
+      self.layout = 'application' unless layout
     end
 
     def initialize_missing_parts
@@ -38,13 +33,12 @@ module ActiveadminSelleoCms
       title
     end
 
-    def render
-      ::Liquid::Template.parse(layout.template).
-          render(render_page_parts)
+    def part_names
+      File.open(Dir.glob("app/views/layouts/#{layout}.html*").first).read.scan(/yield\s*\:(\w+)/).flatten
     end
 
-    def render_page_parts
-      Hash[page_parts.find_all_by_name(part_names).map{|page_part| [page_part.name, page_part.render]}]
+    def to_param
+      slug
     end
 
     class Translation
