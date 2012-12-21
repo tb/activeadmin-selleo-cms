@@ -1,4 +1,4 @@
-= semantic_form_for [:admin, @page], html: { multipart: true } do |form|
+= semantic_form_for [:admin, @page], url: admin_page_path(@page.id), html: { multipart: true } do |form|
 
   - @page.initialize_missing_translations
   - current_locale = ActiveadminSelleoCms::Locale.find_by_code(I18n.locale)
@@ -8,6 +8,7 @@
   = form.inputs "General options" do
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
     = form.input :layout, collection: Dir.glob('app/views/layouts/*html*').map{|l| l.split('/').last.split('.').first }, include_blank: false
+    = form.input :published, as: :boolean, input_html: { checked: @page.published_at.present? }
 
   .language-tabs
     %ul.language-selection

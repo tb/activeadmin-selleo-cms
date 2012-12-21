@@ -1,5 +1,11 @@
 ActiveAdmin.register ActiveadminSelleoCms::Locale, { as: "Locale", sort_order: 'name_asc' } do
+  config.batch_actions = false
+
   actions :all, except: [:show, :destroy]
+
+  scope :enabled, default: true
+  scope :popular
+  scope :all
 
   index do
     column :name
