@@ -14,5 +14,13 @@ module ActiveadminSelleoCms
       end
     end
 
+    def translated_attribute(attr, locale)
+      if t = translations.with_locale(locale).first
+        t.send(attr.to_sym)
+      else
+        send(attr.to_sym)
+      end
+    end
+
   end
 end

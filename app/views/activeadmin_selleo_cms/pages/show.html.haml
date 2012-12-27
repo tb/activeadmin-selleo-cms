@@ -1,3 +1,3 @@
-- @page.page_parts.each do |page_part|
-  - content_for page_part.name.to_sym do
-    = page_part.body.html_safe
+- @page.sections.each do |section|
+  - content_for section.name.to_sym do
+    = section.body.html_safe

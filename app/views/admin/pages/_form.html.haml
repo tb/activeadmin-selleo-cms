@@ -1,14 +1,16 @@
-= semantic_form_for [:admin, @page], url: admin_page_path(@page.id), html: { multipart: true } do |form|
+= semantic_form_for [:admin, @page], url: (@page.new_record? ? admin_pages_path : admin_page_path(@page.id)), html: { multipart: true } do |form|
 
   - @page.initialize_missing_translations
   - current_locale = ActiveadminSelleoCms::Locale.find_by_code(I18n.locale)
-  - @page.initialize_missing_parts
-  - @page_part_forms = []
+  - @page.initialize_missing_sections
+  - @section_forms = []
 
   = form.inputs "General options" do
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
-    = form.input :layout, collection: Dir.glob('app/views/layouts/*html*').map{|l| l.split('/').last.split('.').first }, include_blank: false
+    = form.input :layout, collection: ActiveadminSelleoCms::Layout.all, include_blank: false
     = form.input :published, as: :boolean, input_html: { checked: @page.published_at.present? }
+    = form.input :is_link_url, as: :boolean, input_html: { checked: @page.link_url.present? }
+    = form.input :link_url
 
   .language-tabs
     %ul.language-selection
@@ -22,24 +24,40 @@
       = render partial: 'fields_current_locale', locals: { locale: current_locale, form: form }
 
     = form.semantic_fields_for :translations do |translated_form|
-      - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translated_form.object.locale)
-      %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
-        = render partial: 'fields_additional_locale', locals: { locale: additional_locale, form: translated_form }
+      - unless translated_form.object.locale == current_locale.code
+        - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translated_form.object.locale)
+        %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
+          = render partial: 'fields_additional_locale', locals: { locale: additional_locale, form: translated_form }
 
-    = form.actions do
-      = form.action :submit
-      %li.cancel
-        = link_to I18n.t('active_admin.cancel'), admin_pages_path
+  = form.actions do
+    = form.action :submit
+    %li.cancel
+      = link_to I18n.t('active_admin.cancel'), admin_pages_path
 
 
 :javascript
+  function is_link_url(){
+    if($('input#page_is_link_url').is(':checked')){
+      $('div.language-tabs').hide();
+      $('li#page_link_url_input').show();
+    }else{
+      $('li#page_link_url_input').hide();
+      $('div.language-tabs').show();
+    }
+  }
+
   $(function() {
         $(".language-tabs").tabs();
+        is_link_url();
 
         $("input[id$='_title']").blur(function(){
         slugId = '#' + $(this).attr('id').replace('_title', '_slug');
           if ($(slugId).attr('value') == '') {
             $(slugId).attr('value', slug($(this).attr('value')) )
           }
+        });
+
+        $('input#page_is_link_url').change(function(){
+          is_link_url();
         });
     });

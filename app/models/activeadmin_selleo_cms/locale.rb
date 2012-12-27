@@ -8,7 +8,7 @@ module ActiveadminSelleoCms
     scope :enabled, where(enabled: true)
     scope :available_locales, enabled
 
-    scope :popular, where(code: %w(af ar cs da de el en es et fi fr hr hu it ja lt lv nl no pl pt ru sk sl sv tr uk zh))
+    scope :popular, where(code: %w(da de el en es fr hu it lt lv nl no pl pt ru sk sl sv))
 
     def to_s
       code

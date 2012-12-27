@@ -5,10 +5,10 @@
     = form.input :browser_title
     = form.input :meta_keywords
     = form.input :meta_description, input_html: { rows: 3 }
-    = form.semantic_fields_for :page_parts do |page_part_form|
-      - if @page.part_names.include? page_part_form.object.name
-        - @page_part_forms << page_part_form
-        = page_part_form.input :name, as: :hidden, label: false
-        = page_part_form.input :body, as: :ckeditor, label: "#{page_part_form.object.name.titleize} part", input_html: { toolbar: "Easy" }
+    = form.semantic_fields_for :sections do |section_form|
+      - if @page.section_names.include? section_form.object.name
+        - @section_forms << section_form
+        = section_form.input :name, as: :hidden, label: false
+        = section_form.input :body, as: :ckeditor, label: "#{section_form.object.name.titleize} part", input_html: { toolbar: "Easy" }
       - else
         = ""

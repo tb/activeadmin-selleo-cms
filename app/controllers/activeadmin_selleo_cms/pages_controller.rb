@@ -9,6 +9,7 @@ module ActiveadminSelleoCms
         @page = Page.first
         render action: :show, layout: @page.layout
       end
+      @page.increment!(:views) if @page
     end
   end
 end
