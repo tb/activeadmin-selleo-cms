@@ -17,8 +17,9 @@ module ActiveadminSelleoCms
     def translated_attribute(attr, locale)
       _locale = I18n.locale
       I18n.locale = locale
-      send(attr.to_sym)
+      translation = send(attr.to_sym)
       I18n.locale = _locale
+      translation
     end
 
   end
