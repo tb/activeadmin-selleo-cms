@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "awesome_nested_set"
   s.add_dependency "liquid"
   s.add_dependency "texticle", "~> 2.0"
+  s.add_dependency "i18n-active_record"
 
   #s.add_development_dependency "sqlite3"
 end

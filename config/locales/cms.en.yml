@@ -1,0 +1,7 @@
+en:
+  cms:
+    navbar:
+      search:
+        placeholder: "search"
+    footer:
+      copyright: "© JIPS Web Development 2011 - 2013"

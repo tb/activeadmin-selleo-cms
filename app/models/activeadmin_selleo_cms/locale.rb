@@ -1,6 +1,6 @@
 module ActiveadminSelleoCms
   class Locale < ActiveRecord::Base
-    attr_accessible :code, :enabled, :name, as: :admin
+    attr_protected :id
 
     validates :name, presence: true
     validates :code, presence: true, uniqueness: true

@@ -15,3 +15,30 @@ var slug = function(str) {
 
     return str;
 };
+
+$(function(){
+    $('#translations.index input').blur(function(evt){
+        $.ajax({
+            url: $(evt.target).data('route') + '.js',
+            type: 'PUT',
+            data: { 'value': $(evt.target).attr('value'), 'locale': $(evt.target).data('locale'), 'key': $(evt.target).data('key') }
+        })
+    });
+
+    $('input[type="checkbox"][data-route]').change(function(){
+        _data = {}
+        _data[$(this).data('resource')] = {};
+        _data[$(this).data('resource')][$(this).data('attribute')] = $(this).is(':checked');
+
+        that = this;
+
+        $.ajax({
+            url: $(this).data('route') + '.js',
+            type: 'PUT',
+            data: _data
+        }).success(function(){
+            $(that).closest('td').effect('highlight');
+        });
+    });
+
+});

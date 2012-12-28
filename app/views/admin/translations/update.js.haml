@@ -1,0 +1,4 @@
+- if @translation and @translation.update_attribute(:value, params[:value])
+    $('#translations.index input[data-locale="#{@translation.locale}"]').filter('[data-key="#{@translation.key}"]').closest('td').effect('highlight');
+- else
+    alert('#{t("cms.errors.ajax.update.unknown_error")}');

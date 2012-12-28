@@ -11,13 +11,11 @@ ActiveAdmin.register ActiveadminSelleoCms::Locale, { as: "Locale", sort_order: '
     column :name
     column :code
     column :enabled do |locale|
-      check_box_tag "activeadmin_selleo_cms_locale[enabled][#{locale.code}]", 1, locale.enabled, data: { route: admin_locale_path(locale), id: locale.id }
+      check_box_tag "activeadmin_selleo_cms_locale[enabled][#{locale.code}]", 1, locale.enabled, data: { route: admin_locale_path(locale), id: locale.id, resource: 'locale', attribute: 'enabled' }
     end
-    render partial: 'js'
   end
 
-  member_action :update, method: :put do
-    @locale = ActiveadminSelleoCms::Locale.find_by_id(params[:id])
+  controller do
+    respond_to :html, :js
   end
-
 end
