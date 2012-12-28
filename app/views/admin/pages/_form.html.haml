@@ -8,7 +8,7 @@
   = form.inputs "General options" do
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
     = form.input :layout, collection: ActiveadminSelleoCms::Layout.all, include_blank: false
-    = form.input :published, as: :boolean, input_html: { checked: @page.published_at.present? }
+    = form.input :is_published, as: :boolean, input_html: { checked: @page.published_at.present? }
     = form.input :is_link_url, as: :boolean, input_html: { checked: @page.link_url.present? }
     = form.input :link_url
 
@@ -28,6 +28,8 @@
         - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translated_form.object.locale)
         %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
           = render partial: 'fields_additional_locale', locals: { locale: additional_locale, form: translated_form }
+      - else
+        = ""
 
   = form.actions do
     = form.action :submit

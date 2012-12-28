@@ -2,28 +2,34 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
   config.batch_actions = false
 
   scope :all, default: true
-  scope :published
-  scope :not_published
+
+  -> {
+    ActiveadminSelleoCms::Page.roots.each do |page|
+      scope page.title do
+        ActiveadminSelleoCms::Page.where(parent_id: page.id)
+      end
+    end
+  }
 
   form :partial => "form"
 
   filter :parent
 
   index do
-    column do |resource|
-      unless resource.root?
-        "#{image_tag('http://placehold.it/20x15') * resource.depth}".html_safe
+    column do |page|
+      unless page.root?
+        "#{image_tag('http://placehold.it/20x15') * page.depth}".html_safe
       end
     end
     column :title
     column :show_in_menu do |page|
       check_box_tag "activeadmin_selleo_cms_page[show_in_menu][#{page.id}]", 1, page.show_in_menu, data: { route: admin_page_path(page.id), id: page.id, resource: 'page', attribute: 'show_in_menu' }
     end
+    column :is_published do |page|
+      check_box_tag "activeadmin_selleo_cms_page[is_published][#{page.id}]", 1, page.is_published, data: { route: admin_page_path(page.id), id: page.id, resource: 'page', attribute: 'is_published' }
+    end
     column :created_at
     column :updated_at
-    column :published_at do |resource|
-      resource.published_at
-    end
     column :actions do |resource|
       links ||= link_to(I18n.t('active_admin.view'), "/#{I18n.locale}/#{resource.slug}", :class => "member_link view_link", :target => "_new")
       links << link_to(I18n.t('active_admin.edit'), edit_resource_path(resource.id), :class => "member_link edit_link")

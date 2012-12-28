@@ -1,12 +1,12 @@
 module ActiveadminSelleoCms
   module ApplicationHelper
-    def link_to_locale(locale, page=nil)
+    def link_to_locale(link_name, locale, page=nil)
       if page
-        link_to locale.name, page_path(locale.code, page.translated_attribute(:slug, locale.code))
+        link_to link_name, page_path(locale.code, page.translated_attribute(:slug, locale.code))
       elsif request.fullpath.match(/^\/\w{2}\/.*/)
-        link_to locale.name, request.fullpath.gsub(/^\/(\w{2})\//, "/#{locale.code}/")
+        link_to link_name, request.fullpath.gsub(/^\/(\w{2})\//, "/#{locale.code}/")
       else
-        link_to locale.name, "/#{locale.code}"
+        link_to link_name, "/#{locale.code}"
       end
     end
 

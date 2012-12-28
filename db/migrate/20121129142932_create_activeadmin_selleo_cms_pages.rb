@@ -7,6 +7,7 @@ class CreateActiveadminSelleoCmsPages < ActiveRecord::Migration
       t.integer :depth
       t.string :layout
       t.boolean :show_in_menu, default: true
+      t.boolean :is_published
       t.datetime :published_at
       t.boolean :is_link_url, default: false
       t.string :link_url

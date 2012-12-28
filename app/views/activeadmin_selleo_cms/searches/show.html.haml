@@ -1,5 +1,6 @@
 - if @results.any?
   - @results.each do |result|
-    = link_to_search_result result
+    %blockquote
+      %p= link_to_search_result result
 - else
   %p No results

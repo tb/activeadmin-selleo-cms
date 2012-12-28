@@ -8,8 +8,6 @@ module ActiveadminSelleoCms
 
     attr_protected :id
 
-    attr_accessor :published
-
     has_many :sections, as: :sectionable
 
     accepts_nested_attributes_for :translations, :sections, :children
@@ -17,8 +15,8 @@ module ActiveadminSelleoCms
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
 
     scope :show_in_menu, where(show_in_menu: true)
-    scope :published, where("published_at IS NOT NULL")
-    scope :not_published, where("published_at IS NULL")
+    scope :published, where(is_published: true)
+    scope :not_published, where(is_published: false)
     scope :latest, ->(n) { published.reorder("published_at DESC").limit(n) }
     scope :most_read, ->(n) { published.reorder("views DESC").limit(n) }
 
@@ -28,12 +26,8 @@ module ActiveadminSelleoCms
     end
 
     before_save do
-      if published.present?
-        if published_at.blank? and published.to_s.to_boolean
-          self.published_at = Time.now
-        elsif published.present? and published_at.present? and !published.to_s.to_boolean
-          self.published_at = nil
-        end
+      if is_published_changed?
+        self.published_at = is_published ? Time.now : nil
       end
     end
 
