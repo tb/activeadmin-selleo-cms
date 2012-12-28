@@ -31,6 +31,10 @@ module ActiveadminSelleoCms
       end
     end
 
+    after_initialize do
+      self.layout = Layout.all.first if new_record? and layout.blank?
+    end
+
     def initialize_missing_sections
       section_names.each do |section_name|
         sections.build(name: section_name) unless sections.detect{|section| section.name == section_name}

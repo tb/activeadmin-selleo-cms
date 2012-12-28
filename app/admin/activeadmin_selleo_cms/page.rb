@@ -16,12 +16,9 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
   filter :parent
 
   index do
-    column do |page|
-      unless page.root?
-        "#{image_tag('http://placehold.it/20x15') * page.depth}".html_safe
-      end
+    column :title do |page|
+      "#{'&#8212;' * page.depth}  #{page.title}".html_safe
     end
-    column :title
     column :show_in_menu do |page|
       check_box_tag "activeadmin_selleo_cms_page[show_in_menu][#{page.id}]", 1, page.show_in_menu, data: { route: admin_page_path(page.id), id: page.id, resource: 'page', attribute: 'show_in_menu' }
     end
@@ -44,23 +41,17 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
   controller do
     respond_to :html, :js
 
-    def index
-      index! {
-        #@pages = @pages.where(parent_id: nil)
-      }
-    end
-
     def create
       create! do |success, failure|
-        success.html { redirect_to admin_pages_path }
+        success.html { render action: :edit  }
         failure.html { render action: :new  }
       end
     end
 
     def update
       update! do |success, failure|
-          success.html { redirect_to admin_pages_path }
-          failure.html { render action: :edit  }
+        success.html { render action: :edit  }
+        failure.html { render action: :edit  }
       end
     end
   end

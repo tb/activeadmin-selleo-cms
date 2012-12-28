@@ -11,7 +11,7 @@
     - @section_forms.each do |section_form|
       = section_form.semantic_fields_for :translations do |section_form_translated|
         - if section_form_translated.object.locale.to_sym == locale.code
-          = section_form_translated.input :body, as: :ckeditor, label: "#{section_form.object.name.titleize} part", input_html: { toolbar: "Full" }
+          = section_form_translated.input :body, as: :ckeditor, label: "#{section_form.object.name.titleize} part", input_html: { toolbar: "Easy" }
           = section_form_translated.input :locale, :as => :hidden, :label => false
         - else
           = ""

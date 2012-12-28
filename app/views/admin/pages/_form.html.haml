@@ -5,12 +5,21 @@
   - @page.initialize_missing_sections
   - @section_forms = []
 
+  = form.inputs "Layout" do
+    = form.input :layout, collection: ActiveadminSelleoCms::Layout.all, include_blank: false, hint: "The form will reload on change"
+
   = form.inputs "General options" do
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
-    = form.input :layout, collection: ActiveadminSelleoCms::Layout.all, include_blank: false
     = form.input :is_published, as: :boolean, input_html: { checked: @page.published_at.present? }
     = form.input :is_link_url, as: :boolean, input_html: { checked: @page.link_url.present? }
-    = form.input :link_url
+    = form.input :link_url, hint: "Enter remote URL including the http part at the beginning"
+
+  = form.semantic_fields_for :sections do |section_form|
+    - if @page.section_names.include? section_form.object.name
+      - @section_forms << section_form
+      = section_form.input :name, as: :hidden, label: false
+    - else
+      = ""
 
   .language-tabs
     %ul.language-selection
@@ -20,16 +29,10 @@
           - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translation.locale)
           %li= link_to additional_locale.name, "#lang-#{additional_locale.code}"
 
-    %div{id: "lang-#{current_locale.code}"}
-      = render partial: 'fields_current_locale', locals: { locale: current_locale, form: form }
-
     = form.semantic_fields_for :translations do |translated_form|
-      - unless translated_form.object.locale == current_locale.code
-        - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translated_form.object.locale)
-        %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
-          = render partial: 'fields_additional_locale', locals: { locale: additional_locale, form: translated_form }
-      - else
-        = ""
+      - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translated_form.object.locale)
+      %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
+        = render partial: 'translated_fields', locals: { locale: additional_locale, form: translated_form }
 
   = form.actions do
     = form.action :submit
@@ -53,13 +56,22 @@
         is_link_url();
 
         $("input[id$='_title']").blur(function(){
-        slugId = '#' + $(this).attr('id').replace('_title', '_slug');
+          slugId = '#' + $(this).attr('id').replace('_title', '_slug');
           if ($(slugId).attr('value') == '') {
             $(slugId).attr('value', slug($(this).attr('value')) )
+          }
+
+          browserTitleId = '#' + $(this).attr('id').replace('_title', '_browser_title');
+          if ($(browserTitleId).attr('value') == '') {
+            $(browserTitleId).attr('value', $(this).attr('value') )
           }
         });
 
         $('input#page_is_link_url').change(function(){
           is_link_url();
+        });
+
+        $('select#page_layout').change(function(){
+          $(this).closest('form').submit();
         });
     });

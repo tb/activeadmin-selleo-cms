@@ -16,12 +16,16 @@ module ActiveadminSelleoCms
       end
     end
 
-    def link_to_page(page)
+    def url_to_page(page)
       if page.is_link_url
-        link_to page.title, page.link_url
+        page.link_url
       else
-        link_to page.title, page_path(I18n.locale, page)
+        page_path(I18n.locale, page)
       end
+    end
+
+    def link_to_page(page)
+      link_to page.title, url_to_page(page)
     end
   end
 end
