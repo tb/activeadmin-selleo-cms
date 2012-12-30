@@ -1,5 +1,6 @@
 = semantic_form_for [:admin, @page], url: (@page.new_record? ? admin_pages_path : admin_page_path(@page.id)), html: { multipart: true } do |form|
 
+  %input{name: "_change_layout", type: "hidden"}
   - @page.initialize_missing_translations
   - current_locale = ActiveadminSelleoCms::Locale.find_by_code(I18n.locale)
   - @page.initialize_missing_sections
@@ -72,6 +73,7 @@
         });
 
         $('select#page_layout').change(function(){
+          $(this).closest('form').find('input[name="_change_layout"]').attr('value','1');
           $(this).closest('form').submit();
         });
     });

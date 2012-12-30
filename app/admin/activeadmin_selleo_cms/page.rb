@@ -42,16 +42,27 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
     respond_to :html, :js
 
     def create
-      create! do |success, failure|
-        success.html { render action: :edit  }
-        failure.html { render action: :new  }
+      @page = ActiveadminSelleoCms::Page.new(params[:page])
+      if params[:_change_layout] == "1"
+        render action: :new
+      else
+        create! do |success, failure|
+          success.html { render action: :index  }
+          failure.html { render action: :new  }
+        end
       end
     end
 
     def update
-      update! do |success, failure|
-        success.html { render action: :edit  }
-        failure.html { render action: :edit  }
+      @page = ActiveadminSelleoCms::Page.find(params[:id])
+      if params[:_change_layout] == "1"
+        @page.attributes = params[:page]
+        render action: :edit
+      else
+        update! do |success, failure|
+          success.html { render action: :index  }
+          failure.html { render action: :edit  }
+        end
       end
     end
   end
