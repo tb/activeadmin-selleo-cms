@@ -47,7 +47,7 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
         render action: :new
       else
         create! do |success, failure|
-          success.html { render action: :index  }
+          success.html { redirect_to admin_pages_path  }
           failure.html { render action: :new  }
         end
       end
@@ -60,7 +60,7 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
         render action: :edit
       else
         update! do |success, failure|
-          success.html { render action: :index  }
+          success.html { redirect_to admin_pages_path  }
           failure.html { render action: :edit  }
         end
       end
