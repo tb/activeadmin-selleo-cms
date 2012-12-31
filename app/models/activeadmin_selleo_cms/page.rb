@@ -13,6 +13,7 @@ module ActiveadminSelleoCms
     accepts_nested_attributes_for :translations, :sections, :children
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
+    validates_presence_of :layout
 
     scope :show_in_menu, where(show_in_menu: true)
     scope :published, where(is_published: true)
@@ -22,7 +23,6 @@ module ActiveadminSelleoCms
 
     before_validation do
       self.slug = self.title.parameterize if title and slug.blank?
-      self.layout = 'application' unless layout
     end
 
     before_save do
@@ -32,7 +32,7 @@ module ActiveadminSelleoCms
     end
 
     after_initialize do
-      self.layout = Layout.all.first if new_record?
+      self.layout = Layout.all.first if new_record? and layout.blank?
     end
 
     def initialize_missing_sections
