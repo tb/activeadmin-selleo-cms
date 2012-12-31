@@ -32,7 +32,7 @@ module ActiveadminSelleoCms
     end
 
     after_initialize do
-      self.layout = Layout.all.first if new_record? and layout.blank?
+      self.layout = Layout.all.first if new_record?
     end
 
     def initialize_missing_sections
