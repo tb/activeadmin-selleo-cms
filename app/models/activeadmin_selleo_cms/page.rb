@@ -72,9 +72,11 @@ module ActiveadminSelleoCms
     class Translation
       attr_protected :id
 
-      validates_presence_of :title
-      validates_uniqueness_of :slug, scope: :locale #, unless: ->(translation) { translation.page.is_link_url }
-      validates_format_of :slug, with: /^[a-z0-9\-_]+$/i #, unless: ->(translation) { translation.page.is_link_url }
+      belongs_to :activeadmin_selleo_cms_page, class_name: '::ActiveadminSelleoCms::Page'
+
+      validates_presence_of :title, unless: ->(translation) { translation.activeadmin_selleo_cms_page.is_link_url }
+      validates_uniqueness_of :slug, scope: :locale, unless: ->(translation) { translation.activeadmin_selleo_cms_page.is_link_url }
+      validates_format_of :slug, with: /^[a-z0-9\-_]+$/i, unless: ->(translation) { translation.activeadmin_selleo_cms_page.is_link_url }
     end
   end
 end
