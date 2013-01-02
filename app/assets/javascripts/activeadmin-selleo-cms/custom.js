@@ -16,6 +16,17 @@ var slug = function(str) {
     return str;
 };
 
+function delete_asset(page_id, asset_id) {
+    $.ajax({
+        url: '/admin/pages/' + page_id + '/assets/' + asset_id + '.js',
+        type: 'DELETE'
+    }).success(function(){
+        $('[data-attachment-id="' + asset_id + '"]').remove();
+    }).error(function(){
+        alert('Could not delete attachment');
+    });
+}
+
 $(function(){
     $('#translations.index input').blur(function(evt){
         $.ajax({

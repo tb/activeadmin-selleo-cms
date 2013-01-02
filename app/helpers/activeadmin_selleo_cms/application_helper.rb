@@ -24,8 +24,8 @@ module ActiveadminSelleoCms
       end
     end
 
-    def link_to_page(page)
-      link_to page.title, url_to_page(page)
+    def link_to_page(page, link_name=nil)
+      link_to (link_name || page.title), url_to_page(page)
     end
   end
 end

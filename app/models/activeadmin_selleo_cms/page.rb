@@ -9,8 +9,12 @@ module ActiveadminSelleoCms
     attr_protected :id
 
     has_many :sections, as: :sectionable
+    has_one :icon, as: :assetable
+    has_one :header_image, as: :assetable
+    has_many :attachments, as: :assetable
+    has_many :assets, as: :assetable
 
-    accepts_nested_attributes_for :translations, :sections, :children
+    accepts_nested_attributes_for :translations, :sections, :children, :icon, :header_image, :attachments
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
     validates_presence_of :layout
@@ -55,6 +59,14 @@ module ActiveadminSelleoCms
 
     def to_param
       slug
+    end
+
+    def icon_url
+      icon ? icon.url : 'http://placehold.it/120x90'
+    end
+
+    def header_image_url
+      header_image ? header_image.url : 'http://placehold.it/770x385'
     end
 
     class Translation

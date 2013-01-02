@@ -1,5 +1,5 @@
 module ActiveadminSelleoCms
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ApplicationController
 
     before_filter do
       I18n.locale = params[:locale]

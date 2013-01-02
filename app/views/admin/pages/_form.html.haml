@@ -15,6 +15,20 @@
     = form.input :is_link_url, as: :boolean, input_html: { checked: @page.link_url.present? }
     = form.input :link_url, hint: "Enter remote URL including the http part at the beginning"
 
+  = form.inputs "Page icon", for: [:icon, form.object.icon || ActiveadminSelleoCms::Icon.new] do |icon_form|
+    = icon_form.input :data, label: "Icon", hint: (form.object.icon ? icon_form.template.image_tag(form.object.icon_url) : "No icon uploaded yet" )
+
+  = form.inputs "Header image", for: [:header_image, form.object.header_image || ActiveadminSelleoCms::HeaderImage.new] do |header_image_form|
+    = header_image_form.input :data, label: "Header image", hint: (form.object.header_image ? header_image_form.template.image_tag(form.object.header_image_url) : "No header image uploaded yet" )
+
+  = form.inputs "Attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
+    = attachment_form.input :data, label: "Attachment", input_html: { multiple: true, name: "page[attachments_attributes][][data]" }
+    - form.object.attachments.each do |attachment|
+      %li{"data-attachment-id" => attachment.id}
+        %label File
+        = attachment.data_file_name
+        = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
+
   = form.semantic_fields_for :sections do |section_form|
     - if @page.section_names.include? section_form.object.name
       - @section_forms << section_form

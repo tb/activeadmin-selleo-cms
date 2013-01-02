@@ -1,15 +1,15 @@
 ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_asc" do
   config.batch_actions = false
 
-  scope :all, default: true
+  #scope :all, default: true
 
-  -> {
-    ActiveadminSelleoCms::Page.roots.each do |page|
-      scope page.title do
-        ActiveadminSelleoCms::Page.where(parent_id: page.id)
-      end
-    end
-  }
+  #-> {
+  #  ActiveadminSelleoCms::Page.roots.each do |page|
+  #    scope page.title do
+  #      ActiveadminSelleoCms::Page.where(parent_id: page.id)
+  #    end
+  #  end
+  #}
 
   form :partial => "form"
 
@@ -17,7 +17,7 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
 
   index do
     column :title do |page|
-      "#{'&#8212;' * page.depth}  #{page.title}".html_safe
+      "#{'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' * page.depth + '&raquo;'}  #{page.title}".html_safe
     end
     column :show_in_menu do |page|
       check_box_tag "activeadmin_selleo_cms_page[show_in_menu][#{page.id}]", 1, page.show_in_menu, data: { route: admin_page_path(page.id), id: page.id, resource: 'page', attribute: 'show_in_menu' }
