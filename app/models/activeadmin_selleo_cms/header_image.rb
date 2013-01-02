@@ -1,8 +1,8 @@
 module ActiveadminSelleoCms
   class HeaderImage < ActiveadminSelleoCms::Asset
     has_attached_file :data,
-                      :url  => "/cms/header_images/:id/:style_:basename.:extension",
-                      :path => ":rails_root/public/cms/header_images/:id/:style_:basename.:extension",
+                      :url  => "/system/cms/header_images/:id/:style_:basename.:extension",
+                      :path => ":rails_root/public/system/cms/header_images/:id/:style_:basename.:extension",
                       :styles => { :normal => "770x385#" },
                       :default_style => :normal
 

@@ -1,8 +1,8 @@
 module ActiveadminSelleoCms
   class Icon < ActiveadminSelleoCms::Asset
     has_attached_file :data,
-                      :url  => "/cms/icons/:id/:style_:basename.:extension",
-                      :path => ":rails_root/public/cms/icons/:id/:style_:basename.:extension",
+                      :url  => "/system/cms/icons/:id/:style_:basename.:extension",
+                      :path => ":rails_root/public/system/cms/icons/:id/:style_:basename.:extension",
                       :styles => { :normal => "120x90#" },
                       :default_style => :normal
 
