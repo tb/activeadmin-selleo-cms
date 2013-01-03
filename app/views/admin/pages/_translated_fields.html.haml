@@ -4,9 +4,9 @@
   %ol
     = form.input :title
     = form.input :slug
-    = form.input :browser_title
-    = form.input :meta_keywords
-    = form.input :meta_description, input_html: { rows: 3 }
+    = form.input :browser_title, input_html: { class: 'link-url-hide' }
+    = form.input :meta_keywords, input_html: { class: 'link-url-hide' }
+    = form.input :meta_description, input_html: { rows: 3, class: 'link-url-hide' }
     = form.input :locale, :as => :hidden, :label => false
     - @section_forms.each do |section_form|
       = section_form.semantic_fields_for :translations do |section_form_translated|
