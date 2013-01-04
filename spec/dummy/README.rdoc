@@ -1,0 +1,1 @@
+pg_dump -i -a -x -T schema_migrations -O activeadmin_selleo_cms_test -p 5432 -f spec/dummy/db/snapshots/test_database.sql

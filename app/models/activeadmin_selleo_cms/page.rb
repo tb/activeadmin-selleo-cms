@@ -51,7 +51,7 @@ module ActiveadminSelleoCms
 
     def section_names
       begin
-        File.open(Dir.glob("app/views/layouts/#{layout}.html*").first).read.scan(/yield\s*\:(\w+)/).flatten
+        File.open(Dir.glob(File.join(Rails.root, "app/views/layouts/#{layout}.html*")).first).read.scan(/yield\s*\:(\w+)/).flatten
       rescue
         []
       end

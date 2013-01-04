@@ -25,13 +25,17 @@
       %li= link_to current_locale.name, "#lang-#{current_locale.code}"
       - @page.translations.each do |translation|
         - unless translation.locale == current_locale.code
-          - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translation.locale)
-          %li= link_to additional_locale.name, "#lang-#{additional_locale.code}"
+          - if additional_locale = ActiveadminSelleoCms::Locale.enabled.find_by_code(translation.locale)
+            %li= link_to additional_locale.name, "#lang-#{additional_locale.code}"
+          - else
+            = ""
 
     = form.semantic_fields_for :translations do |translated_form|
-      - additional_locale = ActiveadminSelleoCms::Locale.find_by_code(translated_form.object.locale)
-      %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
-        = render partial: 'translated_fields', locals: { locale: additional_locale, form: translated_form }
+      - if additional_locale = ActiveadminSelleoCms::Locale.enabled.find_by_code(translated_form.object.locale)
+        %div{id: "lang-#{additional_locale.code}", style: "#{'display:none;' if additional_locale.code == current_locale.code}"}
+          = render partial: 'translated_fields', locals: { locale: additional_locale, form: translated_form }
+      - else
+        = ""
 
   = form.inputs "Page icon", for: [:icon, form.object.icon || ActiveadminSelleoCms::Icon.new] do |icon_form|
     = icon_form.input :data, label: "Icon", hint: (form.object.icon ? icon_form.template.image_tag(form.object.icon_url) : "No icon uploaded yet" )

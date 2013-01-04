@@ -1,16 +1,6 @@
 ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_asc" do
   config.batch_actions = false
 
-  #scope :all, default: true
-
-  #-> {
-  #  ActiveadminSelleoCms::Page.roots.each do |page|
-  #    scope page.title do
-  #      ActiveadminSelleoCms::Page.where(parent_id: page.id)
-  #    end
-  #  end
-  #}
-
   form :partial => "form"
 
   filter :parent
@@ -28,7 +18,7 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
     column :created_at
     column :updated_at
     column :actions do |resource|
-      links ||= link_to(I18n.t('active_admin.view'), "/#{I18n.locale}/#{resource.slug}", :class => "member_link view_link", :target => "_new")
+      links ||= link_to(I18n.t('active_admin.view'), link_to_page(resource), :class => "member_link view_link", :target => "_new")
       links << link_to(I18n.t('active_admin.edit'), edit_resource_path(resource.id), :class => "member_link edit_link")
       links << link_to(I18n.t('active_admin.delete'), resource_path(resource.id), :method => :delete, :data => {:confirm => I18n.t('active_admin.delete_confirmation')}, :class => "member_link delete_link")
     end

@@ -1,13 +1,17 @@
 = ActiveadminSelleoCms
 
-First install ActiveAdmin.
+First install ActiveAdmin http://activeadmin.info/documentation.html
+
+Then add to your Gemfile
 
   gem 'activeadmin-selleo-cms'
 
-  bundle install
+Install the CMS
 
-  rake
+  rails generate activeadmin_selleo_cms:install
 
-  rake activeadmin_selleo_cms:install:migrations
+Migrate database
 
   rake db:migrate
+
+And you're done! Run the app and create first CMS page.

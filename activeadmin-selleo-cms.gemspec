@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.version     = ActiveadminSelleoCms::VERSION
   s.authors     = ["Adrian Ossowski"]
   s.email       = ["aossowski@gmail.com"]
-  s.homepage    = "http://www.selleo.com"
+  s.homepage    = "https://github.com/aossowski/activeadmin-selleo-cms"
   s.summary     = "ActiveAdmin CMS extension"
   s.description = "ActiveAdmin CMS extension"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
+  s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"
   s.add_dependency "jquery-rails"
@@ -29,5 +29,5 @@ Gem::Specification.new do |s|
   s.add_dependency "texticle", "~> 2.0"
   s.add_dependency "i18n-active_record"
 
-  #s.add_development_dependency "sqlite3"
+  s.add_development_dependency "pg"
 end

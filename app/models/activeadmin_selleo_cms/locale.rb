@@ -19,16 +19,17 @@ module ActiveadminSelleoCms
     end
 
     def url
-      "/#{code}"
+      "/#{to_s}"
     end
 
     class << self
-      def except(sym)
-        enabled.map(&code).reject(sym)
+      def except(locale_codes)
+        locale_codes = [locale_codes] unless locale_codes.is_a? Array
+        enabled.where("code NOT IN (?)", locale_codes).map(&:code)
       end
 
       def available_locale_codes
-        available_locales.map(&:to_s)
+        enabled.map(&:to_s)
       end
 
       def method_missing(sym, *args)

@@ -1,0 +1,9 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: activeadmin_selleo_cms_test
+  port: 5432
+  pool: 5
+  username: raven
+  password: secret
+
