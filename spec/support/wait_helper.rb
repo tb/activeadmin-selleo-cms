@@ -1,4 +1,4 @@
-def wait_for_dom(timeout = Capybara.default_wait_time)
+def wait_for_dom
   uuid = SecureRandom.uuid
   page.find("body")
   page.evaluate_script <<-EOS
@@ -17,5 +17,5 @@ end
 
 def wait_for_ajax_and_dom(timeout = Capybara.default_wait_time)
   wait_for_ajax(timeout)
-  wait_for_dom(timeout)
+  wait_for_dom
 end

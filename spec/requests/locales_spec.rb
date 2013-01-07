@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 feature "Locale management" do
 
   scenario "I can enable locale", js: true do
@@ -14,7 +16,7 @@ feature "Locale management" do
     click_link 'Locales'
     page.should have_content('Displaying 1 Locale')
     uncheck 'activeadmin_selleo_cms_locale_enabled_en'
-    wait_for_ajax_and_dom
+    wait_for_ajax
     click_link 'Enabled'
     page.should have_content('No Locales found')
   end

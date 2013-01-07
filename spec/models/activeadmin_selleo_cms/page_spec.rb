@@ -22,7 +22,7 @@ module ActiveadminSelleoCms
 
     it "should set default layout" do
       page = FactoryGirl.create(:page)
-      page.layout.should == "application"
+      page.layout.should_not be_blank
     end
 
     it "should return all section names" do

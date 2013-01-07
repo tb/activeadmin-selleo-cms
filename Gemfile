@@ -34,11 +34,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'email_spec'
-  gem 'generator_spec'
-  gem 'factory_girl_rails'
-  gem 'generator_spec'
-  gem 'guard-rspec'
-  gem 'guard-spork'
   gem 'headless'
+  gem 'spork'
+  gem 'launchy'
 end

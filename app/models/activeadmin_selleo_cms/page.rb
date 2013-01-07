@@ -2,7 +2,7 @@ module ActiveadminSelleoCms
   class Page < ActiveRecord::Base
     include ContentTranslation
 
-    translates :title, :slug, :browser_title, :meta_keywords, :meta_description
+    translates :title, :slug, :browser_title, :meta_keywords, :meta_description, fallbacks_for_empty_translations: true
 
     acts_as_nested_set
 
@@ -18,6 +18,7 @@ module ActiveadminSelleoCms
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
     validates_presence_of :layout
+    validates_associated :translations, :sections
 
     scope :show_in_menu, where(show_in_menu: true)
     scope :published, where(is_published: true)
@@ -69,12 +70,19 @@ module ActiveadminSelleoCms
       header_image ? header_image.url : 'http://placehold.it/770x385'
     end
 
+    def roots
+      Page.published.roots
+    end
+
+    def breadcrumb
+      self_and_ancestors.map(&:title).join(' &raquo; ').html_safe
+    end
+
     class Translation
       attr_protected :id
 
-      validates_presence_of :title
-      validates_uniqueness_of :slug, scope: :locale
-      validates_format_of :slug, with: /^[a-z0-9\-_]+$/i
+      validates :title, presence: true, if: ->(translation){ translation.locale.eql? I18n.locale }
+      validates :slug, presence: true, uniqueness: { scope: :locale}, format: { with: /^[a-z0-9\-_]+$/i }, if: ->(translation) { translation.locale.eql? I18n.locale }
     end
   end
 end

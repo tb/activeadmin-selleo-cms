@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 feature "Page management" do
 
   scenario "I can create a page", js: true do
@@ -33,7 +35,6 @@ feature "Page management" do
     disable_locale("pl")
     click_link 'Pages'
     click_link 'Edit'
-    wait_for_ajax_and_dom
     page.should_not have_css("#lang-pl")
   end
 
@@ -48,6 +49,22 @@ feature "Page management" do
     create_link_url_page
     edit_link_url_page("http://jips.org")
     page.should have_css('a[href="http://jips.org"]')
+  end
+
+  scenario "Content with no translations fallbacks to default language", js: true do
+    login_admin
+    enable_popular_locale("pl")
+    create_page
+    visit '/en/sample-page'
+    page.should have_content "Sample page"
+    page.should have_content "Some header text"
+    page.should have_content "Some content text"
+    page.should have_content "Some footer text"
+    visit '/pl/sample-page'
+    page.should have_content "Sample page"
+    page.should have_content "Some header text"
+    page.should have_content "Some content text"
+    page.should have_content "Some footer text"
   end
 
 end

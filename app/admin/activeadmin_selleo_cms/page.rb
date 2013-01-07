@@ -1,13 +1,17 @@
 ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_asc" do
   config.batch_actions = false
+  config.paginate = false
 
   form :partial => "form"
 
   filter :parent
 
+  scope :roots, default: true
+  scope :all
+
   index do
     column :title do |page|
-      "#{'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' * page.depth + '&raquo;'}  #{page.title}".html_safe
+      page.breadcrumb
     end
     column :show_in_menu do |page|
       check_box_tag "activeadmin_selleo_cms_page[show_in_menu][#{page.id}]", 1, page.show_in_menu, data: { route: admin_page_path(page.id), id: page.id, resource: 'page', attribute: 'show_in_menu' }
@@ -15,10 +19,15 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
     column :is_published do |page|
       check_box_tag "activeadmin_selleo_cms_page[is_published][#{page.id}]", 1, page.is_published, data: { route: admin_page_path(page.id), id: page.id, resource: 'page', attribute: 'is_published' }
     end
-    column :created_at
-    column :updated_at
+    column :created_at do |page|
+      l page.created_at, format: :short
+    end
+    column :updated_at do |page|
+      l page.updated_at, format: :short
+    end
     column :actions do |resource|
-      links ||= link_to(I18n.t('active_admin.view'), link_to_page(resource), :class => "member_link view_link", :target => "_new")
+      links ||= link_to(I18n.t('active_admin.cms.view_on_site'), link_to_page(resource), :class => "member_link view_link", :target => "_new")
+      links << link_to(I18n.t('active_admin.cms.sub_pages'), admin_pages_path(q: { parent_id_eq: resource.id }, scope: :all), :class => "member_link view_link")
       links << link_to(I18n.t('active_admin.edit'), edit_resource_path(resource.id), :class => "member_link edit_link")
       links << link_to(I18n.t('active_admin.delete'), resource_path(resource.id), :method => :delete, :data => {:confirm => I18n.t('active_admin.delete_confirmation')}, :class => "member_link delete_link")
     end

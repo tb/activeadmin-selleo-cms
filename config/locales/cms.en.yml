@@ -1,7 +1,5 @@
 en:
-  cms:
-    navbar:
-      search:
-        placeholder: "search"
-    footer:
-      copyright: "© JIPS Web Development 2011 - 2013"
+  active_admin:
+    cms:
+      view_on_site: "View on site"
+      sub_pages: "Sub pages"

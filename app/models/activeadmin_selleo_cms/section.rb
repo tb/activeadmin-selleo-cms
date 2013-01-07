@@ -2,7 +2,7 @@ module ActiveadminSelleoCms
   class Section < ActiveRecord::Base
     include ContentTranslation
 
-    translates :body
+    translates :body, fallbacks_for_empty_translations: true
 
     attr_protected :id
 
@@ -12,6 +12,7 @@ module ActiveadminSelleoCms
 
     validates_presence_of :name
     validates_uniqueness_of :name, scope: [:sectionable_type, :sectionable_id]
+    validates_associated :translations
 
     class Translation
       attr_protected :id

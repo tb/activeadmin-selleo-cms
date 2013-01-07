@@ -5,3 +5,7 @@ def link_to_page(page)
     "/#{I18n.locale}/#{page.slug}"
   end
 end
+
+def set_admin_locale
+  I18n.locale = :en
+end
