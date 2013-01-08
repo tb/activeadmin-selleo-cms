@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CMS</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<ul>
+  <% @page.roots.each do |root| %>
+    <%= link_to_page root %>
+  <% end %>
+</ul>
+
+<h1><%= yield :header %></h1>
+
+<%= yield :content %>
+
+<hr/>
+
+<%= yield :footer %>
+
+</body>
+</html>

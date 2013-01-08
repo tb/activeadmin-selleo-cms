@@ -67,4 +67,12 @@ feature "Page management" do
     page.should have_content "Some footer text"
   end
 
+  scenario "I should be redirected to first sub page", js: true do
+    login_admin
+    parent = FactoryGirl.create(:page, title: "Parent", redirect_to_first_sub_page: true)
+    FactoryGirl.create(:page, title: "Child", parent: parent)
+    visit '/en/parent'
+    page.should have_css "a[href*='child']"
+  end
+
 end

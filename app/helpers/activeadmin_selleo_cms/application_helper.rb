@@ -19,6 +19,8 @@ module ActiveadminSelleoCms
     def url_to_page(page)
       if page.is_link_url
         page.link_url
+      elsif page.redirect_to_first_sub_page
+        page.children.published.any? ? url_to_page(page.children.published.first) : "#"
       else
         page_path(I18n.locale, page)
       end

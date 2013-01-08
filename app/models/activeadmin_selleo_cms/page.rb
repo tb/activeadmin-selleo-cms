@@ -25,6 +25,7 @@ module ActiveadminSelleoCms
     scope :not_published, where(is_published: false)
     scope :latest, ->(n) { published.reorder("published_at DESC").limit(n) }
     scope :most_read, ->(n) { published.reorder("views DESC").limit(n) }
+    scope :with_layout, ->(layout_name) { where(layout: layout_name) }
 
     before_validation do
       self.slug = self.title.parameterize if title and slug.blank?
