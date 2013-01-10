@@ -1,5 +1,7 @@
 module ActiveadminSelleoCms
   class Page < ActiveRecord::Base
+    serialize :settings, Hash
+
     include ContentTranslation
 
     translates :title, :slug, :browser_title, :meta_keywords, :meta_description, fallbacks_for_empty_translations: true
@@ -60,7 +62,7 @@ module ActiveadminSelleoCms
     end
 
     def to_param
-      slug
+      parent ? "#{parent.to_param}/#{slug}" : slug
     end
 
     def icon_url
@@ -83,7 +85,14 @@ module ActiveadminSelleoCms
       attr_protected :id
 
       validates :title, presence: true, if: ->(translation){ translation.locale.eql? I18n.locale }
-      validates :slug, presence: true, uniqueness: { scope: :locale}, format: { with: /^[a-z0-9\-_]+$/i }, if: ->(translation) { translation.locale.eql? I18n.locale }
+      validates :slug, presence: true, format: { with: /^[a-z0-9\-_]+$/i }, if: ->(translation) { translation.locale.eql? I18n.locale }
+      validate do |translation|
+        if translation.class.joins(:activeadmin_selleo_cms_page).
+            where("activeadmin_selleo_cms_page_translations.id <> ?", id).
+            where(locale: locale, slug: slug, activeadmin_selleo_cms_pages: { parent_id: activeadmin_selleo_cms_page.parent_id }).any?
+          errors.add(:slug, :taken)
+        end
+      end
     end
   end
 end

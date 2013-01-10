@@ -5,7 +5,12 @@ ActiveadminSelleoCms::Engine.routes.draw do
     scope "search" do
       resources :searches, path: '', only: [:show]
     end
-    resources :pages, path: '', only: [:show]
+    # TODO refactor
+    resources :pages, path: '', only: [:show] do
+      resources :pages, path: '', only: [:show] do
+        resources :pages, path: '', only: [:show]
+      end
+    end
   end
 
   match ':locale' => 'pages#show'
