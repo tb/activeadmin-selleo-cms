@@ -15,6 +15,7 @@ module ActiveadminSelleoCms
     has_one :header_image, as: :assetable
     has_many :attachments, as: :assetable
     has_many :assets, as: :assetable
+    has_many :translations, foreign_key: :activeadmin_selleo_cms_page_id, dependent: :destroy, before_add: :set_nest
 
     accepts_nested_attributes_for :translations, :sections, :children, :icon, :header_image, :attachments
 
@@ -41,6 +42,30 @@ module ActiveadminSelleoCms
 
     after_initialize do
       self.layout = Layout.all.first if new_record? and layout.blank?
+    end
+
+    def set_nest(t)
+     t.activeadmin_selleo_cms_page ||= self
+    end
+
+    def method_missing(method, *args, &block)
+      _method = (method.to_s[/(.*)\=$/,1] || method).to_sym
+      if (self.settings || {}).keys.include? _method
+        eval "
+          def #{_method}
+            (self.settings || {})[:#{_method}]
+          end
+          def #{_method}=(val)
+            self.settings ||= {}
+            val = true if val == '1'
+            val = false if val == '0'
+            self.settings[:#{_method}] = val
+          end
+          "
+        send(method, *args)
+      else
+        super
+      end
     end
 
     def initialize_missing_sections
@@ -81,6 +106,14 @@ module ActiveadminSelleoCms
       self_and_ancestors.map(&:title).join(' &raquo; ').html_safe
     end
 
+    def url
+      if is_link_url
+        link_url
+      else
+        "/#{I18n.locale}/#{to_param}"
+      end
+    end
+
     class Translation
       attr_protected :id
 
@@ -88,8 +121,7 @@ module ActiveadminSelleoCms
       validates :slug, presence: true, format: { with: /^[a-z0-9\-_]+$/i }, if: ->(translation) { translation.locale.eql? I18n.locale }
       validate do |translation|
         if translation.class.joins(:activeadmin_selleo_cms_page).
-            where("activeadmin_selleo_cms_page_translations.id <> ?", id).
-            where(locale: locale, slug: slug, activeadmin_selleo_cms_pages: { parent_id: activeadmin_selleo_cms_page.parent_id }).any?
+            where(locale: locale, slug: slug, activeadmin_selleo_cms_pages: { parent_id: activeadmin_selleo_cms_page.parent_id }).all.reject{|p| p == self}.any?
           errors.add(:slug, :taken)
         end
       end

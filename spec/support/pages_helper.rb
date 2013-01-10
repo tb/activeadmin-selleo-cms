@@ -5,6 +5,7 @@ def create_page
   check "page_is_published"
   within "#lang-en" do
     find(:css, 'input[id$="_title"]').set('Sample page')
+    find(:css, 'input[id$="_slug"]').set('sample-page')
     sections = all(:css, 'textarea[id$="_body"]')
     fill_in_ckeditor sections[0]['id'], with: "Some header text"
     fill_in_ckeditor sections[1]['id'], with: "Some content text"
@@ -21,6 +22,7 @@ def create_link_url_page(link_url="http://example.org")
   check "page_is_link_url"
   within "#lang-en" do
     find(:css, 'input[id$="_title"]').set('Sample page')
+    find(:css, 'input[id$="_slug"]').set('sample-page')
     find(:css, '[id$="_body"]').should_not be_visible
     find(:css, '[id$="_browser_title"]').should_not be_visible
     find(:css, '[id$="_meta_keywords"]').should_not be_visible
@@ -53,6 +55,7 @@ def translate_page(locale)
   click_link locale.name
   within "#lang-pl" do
     find(:css, 'input[id$="_title"]').set('Sample polish page')
+    find(:css, 'input[id$="_slug"]').set('sample-polish-page')
     sections = all(:css, 'textarea[id$="_body"]')
     fill_in_ckeditor sections[0]['id'], with: "Some polish header text"
     fill_in_ckeditor sections[1]['id'], with: "Some polish content text"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108145616) do
+ActiveRecord::Schema.define(:version => 20130110152715) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20130108145616) do
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
     t.boolean  "redirect_to_first_sub_page", :default => false
+    t.text     "settings"
   end
 
   create_table "activeadmin_selleo_cms_section_translations", :force => true do |t|

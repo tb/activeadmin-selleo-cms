@@ -13,6 +13,9 @@
     = form.input :redirect_to_first_sub_page, as: :boolean
     = form.input :is_link_url, as: :boolean, input_html: { checked: @page.link_url.present? }
     = form.input :link_url, hint: "Enter remote URL including the http part at the beginning"
+    - form.object.settings.keys.each do |key|
+      = form.input key.to_sym, as: determine_field_type(form.object.send(key))
+
 
   = form.semantic_fields_for :sections do |section_form|
     - if @page.section_names.include? section_form.object.name

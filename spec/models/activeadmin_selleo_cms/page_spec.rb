@@ -12,7 +12,7 @@ module ActiveadminSelleoCms
     end
 
     it "should maintain the published_at date" do
-      page = FactoryGirl.create(:page)
+      page = FactoryGirl.create(:page, is_published: false)
       page.published_at.should be_nil
       page.update_attribute(:is_published, true)
       page.published_at.should be_a_kind_of ActiveSupport::TimeWithZone
@@ -43,6 +43,34 @@ module ActiveadminSelleoCms
       page.save
       page.title.should == "Title_EN"
       page.translated_attribute(:title, :pl).should == "Title_PL"
+    end
+
+    it "should retrun nested path" do
+      parent = FactoryGirl.create(:page, title: 'Parent')
+      parent.to_param.should == "parent"
+      child = FactoryGirl.create(:page, title: 'Child', parent: parent)
+      child.to_param.should == "parent/child"
+      grand = FactoryGirl.create(:page, title: 'Grand', parent: child)
+      grand.to_param.should == "parent/child/grand"
+    end
+
+    it "should not be possible to create 2 pages with the same title for same parent" do
+      FactoryGirl.create(:page, title: 'Parent')
+      expect { FactoryGirl.create(:page, title: 'Parent') }.to raise_error
+    end
+
+    it "should be possible to create 2 pages with the same title for same parent but in different languages" do
+      FactoryGirl.create(:page, title: 'Same title')
+      I18n.locale = :pl
+      FactoryGirl.create(:page, title: 'Same title')
+    end
+
+    it "should be posbbile to create 2 pages with the same name for different parents" do
+      parent1 = FactoryGirl.create(:page, title: 'Parent 1')
+      parent2 = FactoryGirl.create(:page, title: 'Parent 2')
+      FactoryGirl.create(:page, title: 'Same title')
+      FactoryGirl.create(:page, title: 'Same title', parent: parent1)
+      FactoryGirl.create(:page, title: 'Same title', parent: parent2)
     end
 
   end
