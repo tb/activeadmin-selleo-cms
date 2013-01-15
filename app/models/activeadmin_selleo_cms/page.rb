@@ -29,6 +29,7 @@ module ActiveadminSelleoCms
     scope :latest, ->(n) { published.reorder("published_at DESC").limit(n) }
     scope :most_read, ->(n) { published.reorder("views DESC").limit(n) }
     scope :with_layout, ->(layout_name) { where(layout: layout_name) }
+    scope :with_setting_value, ->(key, value) { where("activeadmin_selleo_cms_pages.settings ~ '#{key}: #{value}'") }
 
     before_validation do
       self.slug = self.title.parameterize if title and slug.blank?
@@ -50,7 +51,7 @@ module ActiveadminSelleoCms
 
     def method_missing(method, *args, &block)
       _method = (method.to_s[/(.*)\=$/,1] || method).to_sym
-      if (self.settings || {}).keys.include? _method
+      unless (self.settings || {})[_method].nil?
         eval "
           def #{_method}
             (self.settings || {})[:#{_method}]
@@ -109,6 +110,8 @@ module ActiveadminSelleoCms
     def url
       if is_link_url
         link_url
+      elsif redirect_to_first_sub_page and children.published.any?
+        "/#{I18n.locale}/#{children.published.first.to_param}"
       else
         "/#{I18n.locale}/#{to_param}"
       end

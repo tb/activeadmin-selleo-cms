@@ -7,7 +7,7 @@
   - @section_forms = []
 
   = form.inputs "General options" do
-    = form.input :layout, collection: ActiveadminSelleoCms::Layout.all, include_blank: false, hint: "The form will reload on change"
+    = form.input :layout, collection: ActiveadminSelleoCms::Layout.all.sort, include_blank: false, hint: "The form will reload on change"
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
     = form.input :is_published, as: :boolean, input_html: { checked: @page.published_at.present? }
     = form.input :redirect_to_first_sub_page, as: :boolean
@@ -48,13 +48,13 @@
     = form.inputs "Header image", for: [:header_image, form.object.header_image || ActiveadminSelleoCms::HeaderImage.new] do |header_image_form|
       = header_image_form.input :data, label: "Header image", hint: (form.object.header_image ? header_image_form.template.image_tag(form.object.header_image_url) : "No header image uploaded yet" )
 
-    = form.inputs "Attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
-      = attachment_form.input :data, label: "Attachment", input_html: { multiple: true, name: "page[attachments_attributes][][data]" }
-      - form.object.attachments.each do |attachment|
-        %li{"data-attachment-id" => attachment.id}
-          %label File
-          = attachment.data_file_name
-          = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
+    -#= form.inputs "Attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
+    -#  = attachment_form.input :data, label: "Attachment", input_html: { multiple: true, name: "page[attachments_attributes][][data]" }
+    -#  - form.object.attachments.each do |attachment|
+    -#    %li{"data-attachment-id" => attachment.id}
+    -#      %label File
+    -#      = attachment.data_file_name
+    -#      = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
 
   = form.actions do
     = form.action :submit

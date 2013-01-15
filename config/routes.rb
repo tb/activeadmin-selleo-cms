@@ -8,7 +8,9 @@ ActiveadminSelleoCms::Engine.routes.draw do
     # TODO refactor
     resources :pages, path: '', only: [:show] do
       resources :pages, path: '', only: [:show] do
-        resources :pages, path: '', only: [:show]
+        resources :pages, path: '', only: [:show] do
+          resources :pages, path: '', only: [:show]
+        end
       end
     end
   end

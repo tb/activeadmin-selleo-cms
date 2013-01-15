@@ -14,8 +14,14 @@ module ActiveadminSelleoCms
     validates_uniqueness_of :name, scope: [:sectionable_type, :sectionable_id]
     validates_associated :translations
 
+    scope :with_name, ->(section_name) { where(name: section_name) }
+
     class Translation
       attr_protected :id
+
+      has_many :attachments, as: :assetable
+
+      accepts_nested_attributes_for :attachments
     end
   end
 end

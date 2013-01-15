@@ -18,7 +18,7 @@ var slug = function(str) {
 
 function delete_asset(page_id, asset_id) {
     $.ajax({
-        url: '/admin/pages/' + page_id + '/assets/' + asset_id + '.js',
+        url: '/admin/assets/' + asset_id + '.js',
         type: 'DELETE'
     }).success(function(){
         $('[data-attachment-id="' + asset_id + '"]').remove();

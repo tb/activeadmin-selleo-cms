@@ -17,6 +17,7 @@ module ActiveadminSelleoCms
     end
 
     def url_to_page(page)
+      return "#" unless page
       if page.is_link_url
         page.link_url
       elsif page.redirect_to_first_sub_page
