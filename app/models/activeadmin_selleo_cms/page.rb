@@ -21,7 +21,7 @@ module ActiveadminSelleoCms
     accepts_nested_attributes_for :translations, :sections, :children, :icon, :header_image, :attachments
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
-    validates_presence_of :layout
+    validates_presence_of :layout_name
     # ZUO
     #validates_associated :translations, :sections
 
@@ -30,7 +30,7 @@ module ActiveadminSelleoCms
     scope :not_published, where(is_published: false)
     scope :latest, ->(n) { published.reorder("published_at DESC").limit(n) }
     scope :most_read, ->(n) { published.reorder("views DESC").limit(n) }
-    scope :with_layout, ->(layout_name) { where(layout: layout_name) }
+    scope :with_layout, ->(layout_name) { where(layout_name: layout_name) }
     scope :with_setting_value, ->(key, value) { where("activeadmin_selleo_cms_pages.settings ~ '#{key}: #{value}'") }
 
     before_validation do
@@ -45,7 +45,7 @@ module ActiveadminSelleoCms
     end
 
     after_initialize do
-      self.layout = Layout.all.first if new_record? and layout.blank?
+      self.layout_name = Layout.all.first if new_record? and layout_name.blank?
     end
 
     def set_nest(translation)
@@ -83,11 +83,11 @@ module ActiveadminSelleoCms
     end
 
     def section_names
-      begin
-        File.open(Dir.glob(File.join(Rails.root, "app/views/layouts/#{layout}.html*")).first).read.scan(/yield\s*\:(\w+)/).flatten
-      rescue
-        []
-      end
+      @section_names ||= layout.section_names
+    end
+
+    def layout
+      @layout ||= Layout.find(layout_name)
     end
 
     def to_param

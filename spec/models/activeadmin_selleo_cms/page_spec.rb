@@ -20,9 +20,9 @@ module ActiveadminSelleoCms
       page.published_at.should be_nil
     end
 
-    it "should set default layout" do
+    it "should set default layout name" do
       page = FactoryGirl.create(:page)
-      page.layout.should_not be_blank
+      page.layout_name.should_not be_blank
     end
 
     it "should return all section names" do

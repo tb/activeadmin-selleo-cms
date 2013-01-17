@@ -5,7 +5,7 @@ class CreateActiveadminSelleoCmsPages < ActiveRecord::Migration
       t.integer :lft
       t.integer :rgt
       t.integer :depth
-      t.string :layout
+      t.string :layout_name
       t.boolean :show_in_menu, default: true
       t.boolean :is_published
       t.datetime :published_at

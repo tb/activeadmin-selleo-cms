@@ -1,7 +1,7 @@
 def create_page
   click_link 'Pages'
   click_link 'New Page'
-  select 'cms', from: 'page_layout'
+  select 'cms', from: 'page_layout_name'
   check "page_is_published"
   within "#lang-en" do
     find(:css, 'input[id$="_title"]').set('Sample page')
@@ -18,7 +18,7 @@ end
 def create_link_url_page(link_url="http://example.org")
   click_link 'Pages'
   click_link 'New Page'
-  select 'cms', from: 'page_layout'
+  select 'cms', from: 'page_layout_name'
   check "page_is_link_url"
   within "#lang-en" do
     find(:css, 'input[id$="_title"]').set('Sample page')

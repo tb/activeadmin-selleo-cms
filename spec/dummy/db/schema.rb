@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130110152715) do
+ActiveRecord::Schema.define(:version => 20130117150808) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(:version => 20130110152715) do
     t.integer  "lft"
     t.integer  "rgt"
     t.integer  "depth"
-    t.string   "layout"
+    t.string   "layout_name"
     t.boolean  "show_in_menu",               :default => true
     t.boolean  "is_published"
     t.datetime "published_at"

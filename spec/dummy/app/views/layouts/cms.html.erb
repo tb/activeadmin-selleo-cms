@@ -14,13 +14,21 @@
   <% end %>
 </ul>
 
-<h1><%= yield :header %></h1>
+<h1>
+  <section name='header'>
+    <%= yield :header %>
+  </section>
+</h1>
 
-<%= yield :content %>
+<section name='content' data-type='ckeditor'>
+  <%= yield :content %>
+</section>
 
 <hr/>
 
-<%= yield :footer %>
+<section name='footer'>
+  <%= yield :footer %>
+</section>
 
 </body>
 </html>

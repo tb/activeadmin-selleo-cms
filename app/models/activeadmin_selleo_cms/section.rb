@@ -15,6 +15,16 @@ module ActiveadminSelleoCms
     validates_associated :translations
 
     scope :with_name, ->(section_name) { where(name: section_name) }
+    scope :blurbs, where("name ILIKE 'blurb.%'")
+    scope :help, where("name ILIKE 'help.%'")
+
+    def toolbar
+      case name
+        when /blurb\./ then "Easy"
+        when /help\./ then "Lite"
+        else "Easy"
+      end
+    end
 
     class Translation
       attr_protected :id

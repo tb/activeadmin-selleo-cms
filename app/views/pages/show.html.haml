@@ -1,3 +1,5 @@
 - @page.sections.each do |section|
   - content_for section.name.to_sym do
     = section.body.html_safe if section.body
+    - if current_user and current_user.admin?
+      %p= link_to "Edit", edit_admin_page_path(@page.id)

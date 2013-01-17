@@ -3,6 +3,6 @@ FactoryGirl.define do
     title         "Sample page"
     is_published  true
     show_in_menu  true
-    layout        "cms"
+    layout_name   "cms"
   end
 end

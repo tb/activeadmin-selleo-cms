@@ -29,4 +29,11 @@ module PagesHelper
   def link_to_page(page, link_name=nil)
     link_to (link_name || page.title), url_to_page(page)
   end
+
+  def s(name)
+    section = ActiveadminSelleoCms::Section.where(name: name).first_or_create
+    body = section.body.to_s
+    body += link_to("Edit", edit_admin_section_path(section)) if current_user and current_user.administrator?
+    body.html_safe
+  end
 end

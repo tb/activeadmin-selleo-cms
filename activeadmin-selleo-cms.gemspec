@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-rails"
   s.add_dependency "activeadmin", "~> 0.5.1"
   s.add_dependency "globalize3", "~> 0.3.0"
-  s.add_dependency "ckeditor", "~> 3.7.3"
+  s.add_dependency "ckeditor", "3.7.3"
   s.add_dependency "paperclip"
   s.add_dependency "language_list"
   s.add_dependency "haml"
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency "liquid"
   s.add_dependency "texticle", "~> 2.0"
   s.add_dependency "i18n-active_record"
+  s.add_dependency "nokogiri"
 
   s.add_development_dependency "pg"
   s.add_development_dependency "rspec"
