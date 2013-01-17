@@ -13,13 +13,13 @@
         - if section_form_translated.object.locale.to_sym == locale.code
           = section_form_translated.input :body, as: :ckeditor, label: "#{section_form.object.name.titleize} part", input_html: { toolbar: "Easy" }
           = section_form_translated.input :locale, :as => :hidden, :label => false
+          = section_form_translated.inputs "Attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
+            = attachment_form.input :data, label: "Attachment", input_html: { multiple: false }
+            - section_form_translated.object.attachments.each do |attachment|
+              %li{"data-asset-id" => attachment.id}
+                %label File
+                = attachment.data_file_name
+                = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
         - else
           = ""
-        = section_form_translated.inputs "Attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
-          = attachment_form.input :data, label: "Attachment", input_html: { multiple: false }
-          - section_form_translated.object.attachments.each do |attachment|
-            %li{"data-asset-id" => attachment.id}
-              %label File
-              = attachment.data_file_name
-              = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
 

@@ -30,7 +30,7 @@ gem "activeadmin"
 group :test do
   gem "rspec"
   gem 'rspec-rails'
-  gem 'capybara'
+  gem 'capybara', "1.1.4"
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'factory_girl_rails'

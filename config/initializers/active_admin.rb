@@ -10,3 +10,9 @@ ActiveAdmin.setup do |config|
 
   config.before_filter :set_admin_locale
 end
+
+module ActiveAdmin
+  class BaseController
+    with_role :admin
+  end
+end

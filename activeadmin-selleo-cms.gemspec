@@ -16,11 +16,11 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "~> 3.2.8"
+  s.add_dependency "rails", "~> 3.2.11"
   s.add_dependency "jquery-rails"
-  s.add_dependency "activeadmin"
-  s.add_dependency "globalize3"
-  s.add_dependency "ckeditor"
+  s.add_dependency "activeadmin", "~> 0.5.1"
+  s.add_dependency "globalize3", "~> 0.3.0"
+  s.add_dependency "ckeditor", "~> 3.7.3"
   s.add_dependency "paperclip"
   s.add_dependency "language_list"
   s.add_dependency "haml"
@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pg"
   s.add_development_dependency "rspec"
   s.add_development_dependency "rspec-rails"
-  s.add_development_dependency "capybara"
+  s.add_development_dependency "capybara", "1.1.4"
   s.add_development_dependency "capybara-webkit"
   s.add_development_dependency "database_cleaner"
   s.add_development_dependency "factory_girl_rails"

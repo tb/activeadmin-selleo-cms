@@ -15,13 +15,15 @@ module ActiveadminSelleoCms
     has_one :header_image, as: :assetable
     has_many :attachments, as: :assetable
     has_many :assets, as: :assetable
-    has_many :translations, foreign_key: :activeadmin_selleo_cms_page_id, dependent: :destroy, before_add: :set_nest
+    # ZUO
+    #has_many :translations, class_name: 'ActiveadminSelleoCms::Page::Translation', foreign_key: :activeadmin_selleo_cms_page_id, dependent: :destroy, before_add: :set_nest
 
     accepts_nested_attributes_for :translations, :sections, :children, :icon, :header_image, :attachments
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
     validates_presence_of :layout
-    validates_associated :translations, :sections
+    # ZUO
+    #validates_associated :translations, :sections
 
     scope :show_in_menu, where(show_in_menu: true)
     scope :published, where(is_published: true)
@@ -33,6 +35,7 @@ module ActiveadminSelleoCms
 
     before_validation do
       self.slug = self.title.parameterize if title and slug.blank?
+      translations.each{ |translations| set_nest(translation)}
     end
 
     before_save do
@@ -45,8 +48,8 @@ module ActiveadminSelleoCms
       self.layout = Layout.all.first if new_record? and layout.blank?
     end
 
-    def set_nest(t)
-     t.activeadmin_selleo_cms_page ||= self
+    def set_nest(translation)
+      translation.activeadmin_selleo_cms_page ||= self
     end
 
     def method_missing(method, *args, &block)
@@ -120,10 +123,12 @@ module ActiveadminSelleoCms
     class Translation
       attr_protected :id
 
+      belongs_to :activeadmin_selleo_cms_page, class_name: 'ActiveadminSelleoCms::Page'
+
       validates :title, presence: true, if: ->(translation){ translation.locale.eql? I18n.locale }
       validates :slug, presence: true, format: { with: /^[a-z0-9\-_]+$/i }, if: ->(translation) { translation.locale.eql? I18n.locale }
       validate do |translation|
-        if translation.class.joins(:activeadmin_selleo_cms_page).
+        if slug.present? and translation.class.joins(:activeadmin_selleo_cms_page).
             where(locale: locale, slug: slug, activeadmin_selleo_cms_pages: { parent_id: activeadmin_selleo_cms_page.parent_id }).all.reject{|p| p == self}.any?
           errors.add(:slug, :taken)
         end

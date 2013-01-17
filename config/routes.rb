@@ -1,4 +1,4 @@
-ActiveadminSelleoCms::Engine.routes.draw do
+Rails.application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
 
   scope ":locale", :locale => /\w{2}/ do
@@ -18,4 +18,6 @@ ActiveadminSelleoCms::Engine.routes.draw do
   match ':locale' => 'pages#show'
 
   root to: 'pages#show'
+
+  resources :locales, only: :show
 end

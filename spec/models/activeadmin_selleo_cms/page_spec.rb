@@ -73,6 +73,73 @@ module ActiveadminSelleoCms
       FactoryGirl.create(:page, title: 'Same title', parent: parent2)
     end
 
+    it "should be possible to create and update page with nested translations" do
+      page = Page.create(translations_attributes: { "0" => { title: "Title EN", slug: "title-en", locale: "en" }, "1" => { locale: "da" } } )
+      page.translations.count.should == 2
+      page_en_translation = page.translations.where(locale: 'en').first
+      page_en_translation.title.should == "Title EN"
+      page_da_translation = page.translations.where(locale: 'da').first
+      page_da_translation.title.should be_nil
+
+      attrs = { translations_attributes: {} }
+      attrs[:translations_attributes][page_en_translation.id] = { title: "Updated EN", id: page_en_translation.id }
+      attrs[:translations_attributes][page_da_translation.id] = { title: "New DA", id: page_da_translation.id, slug: 'new-da' }
+
+      page.update_attributes(attrs)
+      page.reload
+      page.translations.count.should == 2
+
+      page.translations.where(locale: 'en').first.title.should == "Updated EN"
+      page.translations.where(locale: 'da').first.title.should == "New DA"
+
+      attrs = { translations_attributes: {} }
+      attrs[:translations_attributes][page_da_translation.id] = { title: "Updated DA", id: page_da_translation.id }
+
+      page.update_attributes(attrs)
+      page.reload
+      page.translations.count.should == 2
+
+      page.translations.where(locale: 'da').first.title.should == "Updated DA"
+    end
+
+    it "should be possible to create and update page with nested sections" do
+      page = Page.create(
+          translations_attributes: { "0" => { title: "Title EN", slug: "title-en", locale: "en" }, "1" => { locale: "da" } },
+          sections_attributes: { "0" => { name: 'header', translations_attributes: { "0" => { body: 'Header EN', locale: 'en' }, "1" => { locale: 'da' } } } }
+      )
+      page.sections.count.should == 1
+      page.sections.first.translations.count.should == 2
+      page_section = page.sections.first
+      page_en_section_translation = page_section.translations.where(locale: 'en').first
+      page_en_section_translation.body.should == "Header EN"
+      page_da_section_translation = page_section.translations.where(locale: 'da').first
+      page_da_section_translation.body.should be_nil
+
+      attrs = { sections_attributes: { page_section.id => { id: page_section.id, translations_attributes: {} } } }
+      attrs[:sections_attributes][page_section.id][:translations_attributes][page_en_section_translation.id] = { body: "Updated EN header", id: page_en_section_translation.id }
+      attrs[:sections_attributes][page_section.id][:translations_attributes][page_da_section_translation.id] = { body: "New DA header", id: page_da_section_translation.id }
+
+      page.update_attributes(attrs)
+      page.reload
+      page.sections.count.should == 1
+      page.sections.first.translations.count.should == 2
+      page_section = page.sections.first
+
+      page_section.translations.where(locale: 'en').first.body.should == "Updated EN header"
+      page_section.translations.where(locale: 'da').first.body.should == "New DA header"
+
+      attrs = { sections_attributes: { page_section.id => { id: page_section.id, translations_attributes: {} } } }
+      attrs[:sections_attributes][page_section.id][:translations_attributes][page_da_section_translation.id] = { body: "Updated DA header", id: page_da_section_translation.id }
+
+      page.update_attributes(attrs)
+      page.reload
+      page.sections.count.should == 1
+      page.sections.first.translations.count.should == 2
+      page_section = page.sections.first
+
+      page_section.translations.where(locale: 'da').first.body.should == "Updated DA header"
+    end
+
   end
 
 end
