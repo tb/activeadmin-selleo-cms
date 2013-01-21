@@ -85,7 +85,7 @@
           is_link_url();
         });
 
-        $('select#page_layout').change(function(){
+        $('select#page_layout_name').change(function(){
           $(this).closest('form').find('input[name="_change_layout"]').attr('value','1');
           $(this).closest('form').submit();
         });
