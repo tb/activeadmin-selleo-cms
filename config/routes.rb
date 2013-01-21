@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :searches, path: '', only: [:show]
     end
     # TODO refactor
-    resources :pages, path: '', only: [:show] do
+    resources :pages, path: '', only: [:show, :index] do
       resources :pages, path: '', only: [:show] do
         resources :pages, path: '', only: [:show] do
           resources :pages, path: '', only: [:show]

@@ -4,13 +4,14 @@ PATH
     activeadmin-selleo-cms (0.0.15)
       activeadmin (~> 0.5.1)
       awesome_nested_set
-      ckeditor (~> 3.7.3)
+      ckeditor (= 3.7.3)
       globalize3 (~> 0.3.0)
       haml
       i18n-active_record
       jquery-rails
       language_list
       liquid
+      nokogiri
       paperclip
       rails (~> 3.2.11)
       texticle (~> 2.0)

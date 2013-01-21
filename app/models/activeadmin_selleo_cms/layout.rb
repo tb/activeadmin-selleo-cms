@@ -42,7 +42,7 @@ module ActiveadminSelleoCms
       def initialize(node)
         @name = node.attributes["name"].content
         @attachments = node.attributes["attachments"] ? true : false
-        @type = node.attributes["data-type"] ? node.attributes["data-type"].content : 'text'
+        @type = node.attributes["data-type"] ? node.attributes["data-type"].content : 'ckeditor'
         @toolbar = node.attributes["data-toolbar"] ? node.attributes["data-toolbar"].content : 'Easy'
       end
 

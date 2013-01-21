@@ -2,17 +2,19 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
   config.batch_actions = false
   config.paginate = false
 
+  actions :all, except: :show
+
   form :partial => "form"
 
-  filter :parent
   filter :translations_title, as: :string
+  filter :parent
 
   scope :roots, default: true
   scope :all
 
   index do
     column :title do |page|
-      link_to page.breadcrumb, admin_pages_path(q: { parent_id_eq: page.id }, scope: :all)
+      link_to page.breadcrumb, (page.children.any? ? (admin_pages_path(q: { parent_id_eq: page.id }, scope: :all)) : edit_admin_page_path( page.id ))
     end
     column :show_in_menu do |page|
       check_box_tag "activeadmin_selleo_cms_page[show_in_menu][#{page.id}]", 1, page.show_in_menu, data: { route: admin_page_path(page.id), id: page.id, resource: 'page', attribute: 'show_in_menu' }

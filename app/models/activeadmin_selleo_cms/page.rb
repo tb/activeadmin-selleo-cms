@@ -15,6 +15,7 @@ module ActiveadminSelleoCms
     has_one :header_image, as: :assetable
     has_many :attachments, as: :assetable
     has_many :assets, as: :assetable
+    has_many :searches, as: :searchable
     # ZUO
     #has_many :translations, class_name: 'ActiveadminSelleoCms::Page::Translation', foreign_key: :activeadmin_selleo_cms_page_id, dependent: :destroy, before_add: :set_nest
 
@@ -110,14 +111,16 @@ module ActiveadminSelleoCms
       self_and_ancestors.map(&:title).join(' &raquo; ').html_safe
     end
 
-    def url
-      if is_link_url
+    def url(options={locale: true})
+      _url = if is_link_url
         link_url
       elsif redirect_to_first_sub_page and children.published.any?
-        "/#{I18n.locale}/#{children.published.first.to_param}"
+        "/:locale/#{children.published.first.to_param}"
       else
-        "/#{I18n.locale}/#{to_param}"
+        "/:locale/#{to_param}"
       end
+      _url = _url.gsub(':locale', I18n.locale.to_s) if _url.match(/:locale/) and options[:locale]
+      _url
     end
 
     class Translation

@@ -33,7 +33,8 @@ module PagesHelper
   def s(name)
     section = ActiveadminSelleoCms::Section.where(name: name).first_or_create
     body = section.body.to_s
-    body += link_to("Edit", edit_admin_section_path(section)) if current_user and current_user.administrator?
+    body = "" if body.match /<p>\s*<\/p>/
+    body += link_to(t("active_admin.cms.edit"), edit_admin_section_path(section)) if current_user and current_user.administrator?
     body.html_safe
   end
 end

@@ -2,6 +2,8 @@ ActiveAdmin.register ActiveadminSelleoCms::Section, as: "Section", sort_order: "
   config.batch_actions = false
   config.paginate = true
 
+  actions :all, except: :show
+
   form :partial => "form"
 
   scope :blurbs, default: true
