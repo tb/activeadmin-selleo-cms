@@ -1,21 +1,22 @@
 class PagesController < CmsController
-  respond_to :html, :json
-
   before_filter :find_page, only: :show
 
   private
 
   def find_page
     page_scope = ActiveadminSelleoCms::Page
+    root = ActiveadminSelleoCms::Page.root
+
+    raise "Create at least one page" unless root
 
     if parent = ActiveadminSelleoCms::Page.find_by_slug(params[:page_id])
       page_scope = page_scope.where(parent_id: parent.id)
     end
 
-    if @page = page_scope.find_by_slug(params[:id]) and !@page.is_published? and !@page.eql?(ActiveadminSelleoCms::Page.root)
-      redirect_to page_path(I18n.locale, ActiveadminSelleoCms::Page.root)
-    elsif !@page
-      redirect_to '/'
+    @page = page_scope.find_by_slug(params[:id])
+
+    if !@page or (!@page.is_published? and @page != root)
+      redirect_to page_path(I18n.locale, root)
     end
   end
 
@@ -27,6 +28,9 @@ class PagesController < CmsController
   end
 
   def index
-    respond_with ActiveadminSelleoCms::Page.published.map{|p| [p.title, p.url(locale: false)]}
+    respond_to do |format|
+      format.html { redirect_to page_path(I18n.locale, ActiveadminSelleoCms::Page.root) }
+      format.json { render text: ActiveadminSelleoCms::Page.published.map{|p| [p.title, p.url(locale: false)]}.to_json }
+    end
   end
 end
