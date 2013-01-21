@@ -9,8 +9,8 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
   filter :translations_title, as: :string
   filter :parent
 
-  scope :roots, default: true
-  scope :all
+  scope :roots
+  scope :all, default: true
 
   index do
     column :title do |page|

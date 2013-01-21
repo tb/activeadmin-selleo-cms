@@ -1,5 +1,5 @@
 - @page.sections.each do |section|
   - content_for section.name.to_sym do
     = section.body.html_safe if section.body
-    - if current_user and current_user.respond_to? :admin and current_user.admin?
+    - if current_user and current_user.respond_to? :admin? and current_user.admin?
       %p= link_to t("active_admin.cms.edit"), edit_admin_page_path(@page.id)
