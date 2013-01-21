@@ -1,6 +1,6 @@
 ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_asc" do
   config.batch_actions = false
-  config.paginate = false
+  #config.paginate = false
 
   actions :all, except: :show
 
