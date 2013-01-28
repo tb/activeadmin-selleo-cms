@@ -11,7 +11,7 @@ module PagesHelper
 
   def link_to_search_result(result)
     if result.is_a? ActiveadminSelleoCms::Page
-      link_to result, page_path(I18n.locale, result)
+      link_to result, result.url
     end
   end
 
