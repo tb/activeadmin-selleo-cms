@@ -32,8 +32,8 @@ module ActiveadminSelleoCms
     scope :latest, ->(n) { published.reorder("published_at DESC").limit(n) }
     scope :most_read, ->(n) { published.reorder("views DESC").limit(n) }
     scope :with_layout, ->(layout_name) { where(layout_name: layout_name) }
-    scope :with_setting_value, ->(key, value) { where("activeadmin_selleo_cms_pages.settings ~ '#{key}: #{value}'") }
-    scope :with_setting, ->(key) { where("activeadmin_selleo_cms_pages.settings ~ '#{key}: '") }
+    scope :with_setting_value, ->(key, value) { where("activeadmin_selleo_cms_pages.settings ~ '#{key}:\\s?\\W?#{value}\\W?\\s*$'") }
+    scope :with_setting, ->(key) { where("activeadmin_selleo_cms_pages.settings ~ '#{key}:\\s?'") }
 
     before_validation do
       self.slug = self.title.parameterize if title and slug.blank?
