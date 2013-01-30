@@ -8,5 +8,7 @@ module ActiveadminSelleoCms
 
     validates_attachment_size :data, :less_than => 1.megabytes
     validates_attachment_presence :data
+
+    attr_protected :id
   end
 end

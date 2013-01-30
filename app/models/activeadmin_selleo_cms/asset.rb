@@ -1,6 +1,6 @@
 module ActiveadminSelleoCms
   class Asset < ActiveRecord::Base
-    attr_accessible :data
+    attr_protected :id
 
     belongs_to :assetable, polymorphic: true
 
