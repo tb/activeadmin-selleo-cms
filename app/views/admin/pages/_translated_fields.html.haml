@@ -12,11 +12,12 @@
       = section_form.semantic_fields_for :translations do |section_form_translated|
         - if section_form_translated.object.locale.to_sym == locale.code
           - section = @page.layout.find_section(section_form.object.name)
-          = section_form_translated.input :body, as: section.type, label: "#{section_form.object.name.titleize} part", input_html: { toolbar: section.toolbar }
+          = section_form_translated.input :body, as: section.type, label: "#{section.name.titleize} part", input_html: { toolbar: section.toolbar } if section.text?
           = section_form_translated.input :locale, :as => :hidden, :label => false
-          - if !@page.new_record? and section.attachments
-            = section_form_translated.inputs "Attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
-              = attachment_form.input :data, label: "Attachment", input_html: { multiple: false }
+          - if !@page.new_record? and section.attachments?
+            = section_form_translated.inputs section.name.titleize, for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
+              = attachment_form.input :data, label: "Upload", input_html: { multiple: false }
+              %li Existing files
               - section_form_translated.object.attachments.each do |attachment|
                 %li{"data-asset-id" => attachment.id}
                   %label File

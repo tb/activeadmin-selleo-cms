@@ -7,6 +7,7 @@ module ActiveadminSelleoCms
     attr_protected :id
 
     belongs_to :sectionable, polymorphic: true
+    has_many :attachments, as: :assetable
 
     accepts_nested_attributes_for :translations
 

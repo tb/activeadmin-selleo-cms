@@ -37,13 +37,21 @@ module ActiveadminSelleoCms
     end
 
     class Section
-      attr_accessor :name, :type, :toolbar, :attachments
+      attr_accessor :name, :type, :toolbar
 
       def initialize(node)
         @name = node.attributes["name"].content
-        @attachments = node.attributes["attachments"] ? true : false
         @type = node.attributes["data-type"] ? node.attributes["data-type"].content : 'ckeditor'
-        @toolbar = node.attributes["data-toolbar"] ? node.attributes["data-toolbar"].content : 'Easy'
+        @attachments = (['files'].include?(@type) or node.attributes["attachments"]) ? true : false
+        @toolbar = node.attributes["data-toolbar"] ? node.attributes["data-toolbar"].content : 'Minimal'
+      end
+
+      def text?
+        ['ckeditor', 'text'].include? @type
+      end
+
+      def attachments?
+        @attachments == true
       end
 
     end

@@ -160,12 +160,23 @@ CKEDITOR.editorConfig = function( config )
 
     config.toolbar_Lite =
         [
-            ['FontSize'],
             ['Cut', 'Copy', 'Paste'],
             ['Bold', 'Italic', 'Underline', 'StrikeThrough'],
             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyFull'],
             ['Link', 'Unlink'],
             ['BulletedList', 'HorizontalRule']
+        ];
+
+    config.toolbar_Minimal =
+        [
+            ['Cut', 'Copy', 'Paste'],
+            ['Bold', 'Italic', 'Underline', 'StrikeThrough'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyFull']
+        ];
+
+    config.toolbar_Header =
+        [
+            ['Bold'],
         ];
 
 };
