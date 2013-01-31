@@ -8,22 +8,22 @@
     = form.input :meta_keywords, input_html: { class: 'link-url-hide' }
     = form.input :meta_description, input_html: { rows: 3, class: 'link-url-hide' }
     = form.input :locale, :as => :hidden, :label => false
-    - unless @page.new_record?
-      - @section_forms.each do |section_form|
-        = section_form.semantic_fields_for :translations do |section_form_translated|
-          - if section_form_translated.object.locale.to_sym == locale.code
-            - section = @page.layout.find_section(section_form.object.name)
-            = section_form_translated.input :body, as: section.type, label: "#{section.name.titleize} part", input_html: { toolbar: section.toolbar } if section.text?
-            = section_form_translated.input :locale, :as => :hidden, :label => false
-            - if section.attachments?
-              = section_form_translated.inputs section.name.titleize, for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
-                = attachment_form.input :data, label: "Upload", input_html: { multiple: false }
-                %li Existing files
-                - section_form_translated.object.attachments.each do |attachment|
-                  %li{"data-asset-id" => attachment.id}
-                    %label File
-                    = attachment.data_file_name
-                    = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
-          - else
-            = ""
+    -#- unless @page.new_record?
+    - @section_forms.each do |section_form|
+      = section_form.semantic_fields_for :translations do |section_form_translated|
+        - if section_form_translated.object.locale.to_sym == locale.code
+          - section = @page.layout.find_section(section_form.object.name)
+          = section_form_translated.input :body, as: section.type, label: "#{section.name.titleize} part", input_html: { toolbar: section.toolbar } if section.text?
+          = section_form_translated.input :locale, :as => :hidden, :label => false
+          - if section.attachments?
+            = section_form_translated.inputs section.name.titleize, for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
+              = attachment_form.input :data, label: "Upload", input_html: { multiple: false }
+              %li Existing files
+              - section_form_translated.object.attachments.each do |attachment|
+                %li{"data-asset-id" => attachment.id}
+                  %label File
+                  = attachment.data_file_name
+                  = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
+        - else
+          = ""
 

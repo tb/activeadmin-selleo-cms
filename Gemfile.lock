@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activeadmin-selleo-cms (0.0.16)
+    activeadmin-selleo-cms (0.0.19)
       activeadmin (~> 0.5.1)
       awesome_nested_set
       ckeditor (= 3.7.3)
