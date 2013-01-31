@@ -45,8 +45,8 @@
     = form.inputs "Page icon", for: [:icon, form.object.icon || ActiveadminSelleoCms::Icon.new] do |icon_form|
       = icon_form.input :data, label: "Icon", hint: (form.object.icon ? icon_form.template.image_tag(form.object.icon_url) : "No icon uploaded yet" )
 
-    = form.inputs "Header image", for: [:header_image, form.object.header_image || ActiveadminSelleoCms::HeaderImage.new] do |header_image_form|
-      = header_image_form.input :data, label: "Header image", hint: (form.object.header_image ? header_image_form.template.image_tag(form.object.header_image_url) : "No header image uploaded yet" )
+  -#  = form.inputs "Header image", for: [:header_image, form.object.header_image || ActiveadminSelleoCms::HeaderImage.new] do |header_image_form|
+  -#    = header_image_form.input :data, label: "Header image", hint: (form.object.header_image ? header_image_form.template.image_tag(form.object.header_image_url) : "No header image uploaded yet" )
 
   = form.actions do
     = form.action :submit

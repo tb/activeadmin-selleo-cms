@@ -52,4 +52,11 @@ $(function(){
         });
     });
 
+    $(document).ready(function(){
+        $('input.ui-datetimepicker').datetimepicker({
+            dateFormat: 'yy-mm-dd',
+            timeFormat: 'HH:mm:ss'
+        });
+    });
+
 });

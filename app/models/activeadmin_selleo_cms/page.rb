@@ -96,8 +96,8 @@ module ActiveadminSelleoCms
       parent ? "#{parent.to_param}/#{slug}" : slug
     end
 
-    def icon_url
-      icon ? icon.url : 'http://placehold.it/120x90'
+    def icon_url(style=nil)
+      icon ? icon.url(style) : 'http://placehold.it/120x90'
     end
 
     def header_image_url

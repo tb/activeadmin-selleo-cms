@@ -17,6 +17,8 @@ class PagesController < CmsController
 
     if !@page or (!@page.is_published? and @page != root)
       redirect_to page_path(I18n.locale, root)
+    elsif @page.redirect_to_first_sub_page
+      redirect_to page_path(I18n.locale, @page.children.first || root)
     end
   end
 
