@@ -4,16 +4,19 @@ class PagesController < CmsController
   private
 
   def find_page
-    page_scope = ActiveadminSelleoCms::Page
     root = ActiveadminSelleoCms::Page.root
 
     raise "Create at least one page" unless root
 
-    if parent = ActiveadminSelleoCms::Page.find_by_slug(params[:page_id])
-      page_scope = page_scope.where(parent_id: parent.id)
+    page_id = nil
+
+    5.downto(1).each do |l|
+      if params["slug#{l}"] and page = ActiveadminSelleoCms::Page.where(parent_id: page_id).find_by_slug(params["slug#{l}"])
+        page_id = page.id
+      end
     end
 
-    @page = page_scope.find_by_slug(params[:id])
+    @page = ActiveadminSelleoCms::Page.find_by_id(page_id)
 
     if !@page or (!@page.is_published? and @page != root)
       redirect_to page_path(I18n.locale, root)

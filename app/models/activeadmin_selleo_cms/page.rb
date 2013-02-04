@@ -12,14 +12,13 @@ module ActiveadminSelleoCms
 
     has_many :sections, as: :sectionable
     has_one :icon, as: :assetable
-    has_one :header_image, as: :assetable
     has_many :attachments, as: :assetable
     has_many :assets, as: :assetable
     has_many :searches, as: :searchable
     # ZUO
     #has_many :translations, class_name: 'ActiveadminSelleoCms::Page::Translation', foreign_key: :activeadmin_selleo_cms_page_id, dependent: :destroy, before_add: :set_nest
 
-    accepts_nested_attributes_for :translations, :sections, :children, :icon, :header_image, :attachments
+    accepts_nested_attributes_for :translations, :sections, :children, :icon, :attachments
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
     validates_presence_of :layout_name
@@ -98,10 +97,6 @@ module ActiveadminSelleoCms
 
     def icon_url(style=nil)
       icon ? icon.url(style) : 'http://placehold.it/120x90'
-    end
-
-    def header_image_url
-      header_image ? header_image.url : 'http://placehold.it/770x385'
     end
 
     def roots

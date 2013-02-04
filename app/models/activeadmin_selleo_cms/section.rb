@@ -26,6 +26,14 @@ module ActiveadminSelleoCms
       end
     end
 
+    def image_url
+      if translation and translation.image
+        translation.image.url
+      else
+        'http://placehold.it/770x385'
+      end
+    end
+
     class Translation
       attr_protected :id
 
