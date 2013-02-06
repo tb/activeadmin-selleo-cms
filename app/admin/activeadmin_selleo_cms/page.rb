@@ -68,10 +68,6 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
     link_to "Delete Page", admin_page_path(page.id), method: 'DELETE', confirm: 'Are you sure?'
   end
 
-  #index as: :list, download_links: false do |page|
-  #  render_tree(page)
-  #end
-
   collection_action :reorder, :method => :get do
     @pages = params[:parent_id] ? ActiveadminSelleoCms::Page.where(parent_id: params[:parent_id]) : ActiveadminSelleoCms::Page.roots
   end
