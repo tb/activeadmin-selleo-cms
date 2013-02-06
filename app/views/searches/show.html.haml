@@ -1,6 +1,6 @@
 - if @results.any?
   - @results.each do |result|
     %blockquote
-      %p= link_to_search_result result
+      %p= link_to_search_result result.searchable
 - else
   %p No results

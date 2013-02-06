@@ -16,5 +16,9 @@ module ActiveadminSelleoCms
     def image_sizes
       { :normal => "#{image_width || 640}x#{image_height || 480}#" }
     end
+
+    #def url(type = nil)
+    #  data.url(type)
+    #end
   end
 end

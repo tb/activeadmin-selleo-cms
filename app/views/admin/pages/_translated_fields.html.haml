@@ -17,6 +17,7 @@
 
             - if section.text?
               = section_form_translated.input :body, as: section.type, label: section.name.titleize, input_html: { toolbar: section.toolbar }
+
             - elsif section.image?
               = section_form_translated.inputs section.name.titleize, for: [:image, section_form_translated.object.image || ActiveadminSelleoCms::Image.new] do |image_form|
                 = image_form.input :image_width, as: :hidden, value: section.width
@@ -28,9 +29,21 @@
                     = image_form.object.data_file_name
                     = link_to_function "Delete", "delete_asset(#{@page.id}, #{image_form.object.id})"
 
+            - elsif section.images?
+              = section_form_translated.inputs section.name.titleize, for: [:images, ActiveadminSelleoCms::Image.new] do |image_form|
+                = image_form.input :image_width, as: :hidden, value: section.width
+                = image_form.input :image_height, as: :hidden, value: section.height
+                = image_form.input :data, label: "File to upload", input_html: { multiple: false }
+                - unless section_form_translated.object.new_record?
+                  - section_form_translated.object.images.each do |image|
+                    %li{"data-asset-id" => image.id}
+                      %label Image
+                      = image.data_file_name
+                      = link_to_function "Delete", "delete_asset(#{@page.id}, #{image.id})"
+
             = section_form_translated.input :locale, :as => :hidden, :label => false
             - if section.attachments?
-              = section_form_translated.inputs section.name.titleize, for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
+              = section_form_translated.inputs "#{section.name.titleize} attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
                 = attachment_form.input :data, label: "File to upload", input_html: { multiple: false }
                 %li Existing files
                 - section_form_translated.object.attachments.each do |attachment|

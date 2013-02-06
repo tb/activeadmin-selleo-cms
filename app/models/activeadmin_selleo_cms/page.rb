@@ -11,14 +11,13 @@ module ActiveadminSelleoCms
     attr_protected :id
 
     has_many :sections, as: :sectionable
-    has_one :icon, as: :assetable
     has_many :attachments, as: :assetable
     has_many :assets, as: :assetable
     has_many :searches, as: :searchable
     # ZUO
     #has_many :translations, class_name: 'ActiveadminSelleoCms::Page::Translation', foreign_key: :activeadmin_selleo_cms_page_id, dependent: :destroy, before_add: :set_nest
 
-    accepts_nested_attributes_for :translations, :sections, :children, :icon, :attachments
+    accepts_nested_attributes_for :translations, :sections, :children, :attachments
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
     validates_presence_of :layout_name
@@ -49,28 +48,25 @@ module ActiveadminSelleoCms
       self.layout_name = Layout.all.first if new_record? and layout_name.blank?
     end
 
-    def set_nest(translation)
-      translation.activeadmin_selleo_cms_page ||= self
+    after_initialize do
+      _settings = read_attribute(:settings) || {}
+      _settings.keys.each do |key|
+            eval "
+        def #{key}
+          (self.settings || {})[:#{key}]
+        end
+        def #{key}=(val)
+          self.settings ||= {}
+          val = true if val == '1'
+          val = false if val == '0'
+          self.settings[:#{key}] = val
+        end
+        "
+      end
     end
 
-    def method_missing(method, *args, &block)
-      _method = (method.to_s[/(.*)\=$/,1] || method).to_sym
-      unless (self.settings || {})[_method].nil?
-        eval "
-          def #{_method}
-            (self.settings || {})[:#{_method}]
-          end
-          def #{_method}=(val)
-            self.settings ||= {}
-            val = true if val == '1'
-            val = false if val == '0'
-            self.settings[:#{_method}] = val
-          end
-          "
-        send(method, *args)
-      else
-        super
-      end
+    def set_nest(translation)
+      translation.activeadmin_selleo_cms_page ||= self
     end
 
     def initialize_missing_sections
@@ -93,10 +89,6 @@ module ActiveadminSelleoCms
 
     def to_param
       parent ? "#{parent.to_param}/#{slug}" : slug
-    end
-
-    def icon_url(style=nil)
-      icon ? icon.url(style) : 'http://placehold.it/120x90'
     end
 
     def roots

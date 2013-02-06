@@ -42,7 +42,7 @@ module ActiveadminSelleoCms
       def initialize(node)
         @name = node.attributes["name"].content
         @type = node.attributes["data-type"] ? node.attributes["data-type"].content : 'ckeditor'
-        @attachments = (['files'].include?(@type) or node.attributes["attachments"]) ? true : false
+        @attachments = (['files'].include?(@type) or node.attributes["data-attachments"]) ? true : false
         @toolbar = node.attributes["data-toolbar"] ? node.attributes["data-toolbar"].content : 'Minimal'
         @width = node.attributes["data-width"] ? node.attributes["data-width"].content : 640
         @height = node.attributes["data-height"] ? node.attributes["data-height"].content : 480
@@ -54,6 +54,10 @@ module ActiveadminSelleoCms
 
       def image?
         ['image'].include? @type
+      end
+
+      def images?
+        ['images'].include? @type
       end
 
       def attachments?

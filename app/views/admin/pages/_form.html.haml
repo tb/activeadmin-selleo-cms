@@ -7,7 +7,7 @@
   - @section_forms = []
   -#= @page.errors.full_messages
 
-  = form.inputs "General options" do
+  = form.inputs general_options(@page) do
     = form.input :layout_name, collection: ActiveadminSelleoCms::Layout.all.sort, include_blank: false, hint: "The form will reload on change"
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
     = form.input :is_published, as: :boolean, input_html: { checked: @page.published_at.present? }
@@ -41,10 +41,6 @@
           = render partial: 'translated_fields', locals: { locale: additional_locale, form: translated_form }
       - else
         = ""
-
-  - unless @page.new_record?
-    = form.inputs "Page icon", for: [:icon, form.object.icon || ActiveadminSelleoCms::Icon.new] do |icon_form|
-      = icon_form.input :data, label: "Icon", hint: (form.object.icon ? icon_form.template.image_tag(form.object.icon_url) : "No icon uploaded yet" )
 
   = form.actions do
     = form.action :submit

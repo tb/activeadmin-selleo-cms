@@ -1,8 +1,9 @@
 ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_asc" do
   config.batch_actions = false
   #config.paginate = false
+  config.clear_action_items!
 
-  actions :all, except: :show
+  actions :all
 
   form :partial => "form"
 
@@ -35,6 +36,34 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
     end
   end
 
+  show do
+    h2 page.title
+    attributes_table do
+      row :parent do
+        page.parent ? link_to(page.parent.title, page.parent.url) : nil
+      end
+      row :layout_name
+      row :is_published
+      row :show_in_menu
+      row :is_link_url do
+        (page.is_link_url ? page.link_url : false)
+      end
+      row :views
+    end
+  end
+
+  action_item only:[:show] do
+    link_to "Edit Page", edit_admin_page_path(page.id)
+  end
+
+  action_item only:[:index] do
+    link_to "New Page", new_admin_page_path
+  end
+
+  action_item only:[:show,:edit] do
+    link_to "View on site", page.url, target: '_blank'
+  end
+
   #index as: :list, download_links: false do |page|
   #  render_tree(page)
   #end
@@ -48,7 +77,7 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
         render action: :new
       else
         create! do |success, failure|
-          success.html { redirect_to admin_pages_path  }
+          success.html { redirect_to admin_page_path(@page.id)  }
           failure.html { render action: :new  }
         end
       end
@@ -61,7 +90,7 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
         render action: :edit
       else
         update! do |success, failure|
-          success.html { redirect_to admin_pages_path  }
+          success.html { redirect_to admin_page_path(@page.id)  }
           failure.html { render action: :edit  }
         end
       end

@@ -140,6 +140,15 @@ module ActiveadminSelleoCms
       page_section.translations.where(locale: 'da').first.body.should == "Updated DA header"
     end
 
+    it "should create dynamic getters and setters from settings" do
+      page = FactoryGirl.create(:page, title: 'Test 1', settings: {:attr1 => 'Test 1'})
+      page.attr1
+      page = FactoryGirl.create(:page, title: 'Test 2', settings: {:attr2 => 'Test 2'})
+      page.attributes = { :attr2 => 'Test' }
+      page = FactoryGirl.create(:page, title: 'Test 3', settings: {:attr3 => 'Test 3'})
+      page.attr3 = 'Test'
+    end
+
   end
 
 end

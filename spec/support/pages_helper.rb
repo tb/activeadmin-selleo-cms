@@ -12,7 +12,7 @@ def create_page
     fill_in_ckeditor sections[2]['id'], with: "Some footer text"
   end
   click_button 'Create Page'
-  page.should have_content('Displaying 1 Page')
+  page.should have_content('Page was successfully created')
 end
 
 def create_link_url_page(link_url="http://example.org")
@@ -31,7 +31,7 @@ def create_link_url_page(link_url="http://example.org")
   check "page_is_published"
   fill_in "page_link_url", with: link_url
   click_button 'Create Page'
-  page.should have_content('Displaying 1 Page')
+  page.should have_content('Page was successfully created')
 end
 
 def edit_link_url_page(link_url="http://example.org")
@@ -45,7 +45,7 @@ def edit_link_url_page(link_url="http://example.org")
   end
   fill_in "page_link_url", with: link_url
   click_button 'Update Page'
-  page.should have_content('Displaying 1 Page')
+  page.should have_content('Page was successfully updated')
 end
 
 def translate_page(locale)
@@ -62,6 +62,6 @@ def translate_page(locale)
     fill_in_ckeditor sections[2]['id'], with: "Some polish footer text"
   end
   click_button 'Update Page'
-  page.should have_content('Displaying 1 Page')
+  page.should have_content('Page was successfully updated')
 end
 

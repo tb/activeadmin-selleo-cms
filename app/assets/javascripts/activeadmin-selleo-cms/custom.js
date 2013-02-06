@@ -59,4 +59,20 @@ $(function(){
         });
     });
 
+    $('i.fold').click(function(){
+        var form = $(this).closest('fieldset').find('ol');
+        if (form.is(':visible')){
+            $(this).text('Show');
+        } else {
+            $(this).text('Hide');
+        }
+      $(this).closest('fieldset').find('ol').toggle();
+    });
+
+//    $('i.folded').click();
+
+    $('input[multiple]').each(function(){
+        $(this).attr('name', $(this).attr('name').replace(/\[\]$/, '') );
+    });
+
 });
