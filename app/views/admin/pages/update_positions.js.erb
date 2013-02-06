@@ -1,0 +1,6 @@
+<% if ActiveadminSelleoCms::Page.update_positions(params[:page_ids]) %>
+    alert('Changes saved');
+<% else %>
+    alert('An error has occured. Changes are NOT saved');
+<% end %>
+$('.update-positions-button').attr('disabled', false).attr('value', 'Save')

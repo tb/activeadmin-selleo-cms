@@ -27,6 +27,15 @@ function delete_asset(page_id, asset_id) {
     });
 }
 
+function update_positions(pagesArray) {
+    $('.update-positions-button').attr('disabled', true).attr('value', 'Saving...')
+    $.ajax({
+        url: '/admin/pages/update_positions.js',
+        data: { 'page_ids': pagesArray },
+        type: 'PUT'
+    });
+}
+
 $(function(){
     $('#translations.index input').blur(function(evt){
         $.ajax({
@@ -74,5 +83,8 @@ $(function(){
     $('input[multiple]').each(function(){
         $(this).attr('name', $(this).attr('name').replace(/\[\]$/, '') );
     });
+
+    $( ".sortable" ).sortable();
+    $( ".sortable" ).disableSelection();
 
 });

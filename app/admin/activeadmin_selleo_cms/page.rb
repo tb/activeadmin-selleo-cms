@@ -68,6 +68,13 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
   #  render_tree(page)
   #end
 
+  collection_action :reorder, :method => :get do
+    @pages = params[:parent_id] ? ActiveadminSelleoCms::Page.where(parent_id: params[:parent_id]) : ActiveadminSelleoCms::Page.roots
+  end
+
+  collection_action :update_positions, :method => :put do
+  end
+
   controller do
     respond_to :html, :js
 

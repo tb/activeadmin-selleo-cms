@@ -111,6 +111,19 @@ module ActiveadminSelleoCms
       _url
     end
 
+    def self.update_positions(page_ids)
+      begin
+        ActiveRecord::Base.transaction do
+          page_ids.each_cons(2) do |pair|
+            Page.find(pair.last).move_to_right_of(Page.find(pair.first))
+          end
+        end
+        return true
+      rescue
+        return false
+      end
+    end
+
     class Translation
       attr_protected :id
 
