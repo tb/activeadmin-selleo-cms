@@ -64,6 +64,10 @@ ActiveAdmin.register ActiveadminSelleoCms::Page, as: "Page", sort_order: "lft_as
     link_to "View on site", page.url, target: '_blank'
   end
 
+  action_item only:[:show,:edit] do
+    link_to "Delete Page", admin_page_path(page.id), method: 'DELETE', confirm: 'Are you sure?'
+  end
+
   #index as: :list, download_links: false do |page|
   #  render_tree(page)
   #end
