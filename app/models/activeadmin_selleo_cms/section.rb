@@ -36,6 +36,14 @@ module ActiveadminSelleoCms
       end
     end
 
+    def attachment
+      if current_translation = translations.with_locales(I18n.fallbacks[I18n.locale]).detect{|t| t.attachment}
+        current_translation.attachment
+      else
+        nil
+      end
+    end
+
     def images
       if current_translation = translations.with_locales(I18n.fallbacks[I18n.locale]).detect{|t| t.images.any? }
         current_translation.images
@@ -49,9 +57,11 @@ module ActiveadminSelleoCms
 
       has_many :attachments, as: :assetable
       has_many :images, as: :assetable
+      has_one :attachment, as: :assetable
       has_one :image, as: :assetable
 
-      accepts_nested_attributes_for :attachments
+      accepts_nested_attributes_for :attachments, reject_if: lambda{ |i| i[:data].blank? }
+      accepts_nested_attributes_for :attachment, reject_if: lambda{ |i| i[:data].blank? }
       accepts_nested_attributes_for :image, reject_if: lambda{ |i| i[:data].blank? }
       accepts_nested_attributes_for :images, reject_if: lambda{ |i| i[:data].blank? }
     end

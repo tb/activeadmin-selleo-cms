@@ -44,13 +44,18 @@
             = section_form_translated.input :locale, :as => :hidden, :label => false
             - if section.attachments?
               = section_form_translated.inputs "#{section.name.titleize} attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
-                = attachment_form.input :data, label: "File to upload", input_html: { multiple: false }
-                %li Existing files
-                - section_form_translated.object.attachments.each do |attachment|
-                  %li{"data-asset-id" => attachment.id}
-                    %label File
-                    = attachment.data_file_name
-                    = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
+                = attachment_form.input :data, label: "File to upload"
+                = attachment_form.input :cover, label: "Cover image"
+                = attachment_form.input :caption
+                - if section_form_translated.object.attachments.any? and !section_form_translated.object.new_record?
+                  %li Existing files
+                  - section_form_translated.object.attachments.each do |attachment|
+                    %li{"data-asset-id" => attachment.id}
+                      %label File
+                      = attachment.data_file_name
+                      = image_tag(attachment.cover.url) if attachment.cover
+                      = attachment.caption
+                      = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
           - else
             = ""
 
