@@ -1,6 +1,6 @@
 module ActiveadminSelleoCms
   class Image < ActiveadminSelleoCms::Asset
-    attr_accessor :image_width, :image_height
+    attr_accessor :image_width, :image_height, :resize_method
 
     has_attached_file :data,
                       :url  => "/system/cms/images/:id/:style_:basename.:extension",
@@ -14,11 +14,8 @@ module ActiveadminSelleoCms
     attr_protected :id
 
     def image_sizes
-      { :normal => "#{image_width || 640}x#{image_height || 480}#" }
+      { :normal => "#{image_width || 640}x#{image_height || 480}#{resize_method || "#"}" }
     end
 
-    #def url(type = nil)
-    #  data.url(type)
-    #end
   end
 end

@@ -37,16 +37,17 @@ module ActiveadminSelleoCms
     end
 
     class Section
-      attr_accessor :name, :type, :toolbar, :width, :height
+      attr_accessor :name, :type, :toolbar, :width, :height, :resize_method
 
       def initialize(node)
         @name = node.attributes["name"].content
         @type = node.attributes["data-type"] ? node.attributes["data-type"].content : 'ckeditor'
         @attachments = (['files'].include?(@type) or node.attributes["data-attachments"]) ? true : false
-        @attachments = (['file'].include?(@type) or node.attributes["data-attachment"]) ? true : false
+        @attachment = (['file'].include?(@type) or node.attributes["data-attachment"]) ? true : false
         @toolbar = node.attributes["data-toolbar"] ? node.attributes["data-toolbar"].content : 'Minimal'
         @width = node.attributes["data-width"] ? node.attributes["data-width"].content : 640
         @height = node.attributes["data-height"] ? node.attributes["data-height"].content : 480
+        @resize_method = node.attributes["data-resize-method"] ? node.attributes["data-resize-method"].content : "#"
       end
 
       def text?
