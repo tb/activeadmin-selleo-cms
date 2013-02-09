@@ -51,15 +51,15 @@ module ActiveadminSelleoCms
       end
 
       def text?
-        ['ckeditor', 'text'].include? @type
+        ['ckeditor', 'text', 'string'].include? @type.downcase
       end
 
       def image?
-        ['image'].include? @type
+        ['image'].include? @type.downcase
       end
 
       def images?
-        ['images'].include? @type
+        ['images'].include? @type.downcase
       end
 
       def attachments?
