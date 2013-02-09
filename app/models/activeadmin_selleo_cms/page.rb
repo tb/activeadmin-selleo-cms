@@ -39,8 +39,8 @@ module ActiveadminSelleoCms
     end
 
     before_save do
-      if is_published_changed?
-        self.published_at = is_published ? Time.now : nil
+      if is_published_changed? and is_published and published_at.blank?
+        self.published_at = Time.now
       end
     end
 
