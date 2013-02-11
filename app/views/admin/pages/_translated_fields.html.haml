@@ -55,10 +55,11 @@
                   - section_form_translated.object.attachments.each do |attachment|
                     %li{"data-asset-id" => attachment.id}
                       %label File
-                      = attachment.data_file_name
-                      = image_tag(attachment.cover.url) if attachment.cover.exists?
-                      = attachment.caption
-                      = link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
+                      .attachment
+                        .cover-image= image_tag(attachment.cover.url) if attachment.cover.exists?
+                        .file-name= attachment.data_file_name
+                        .caption= attachment.caption
+                        .delete-link= link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
           - else
             = ""
 
