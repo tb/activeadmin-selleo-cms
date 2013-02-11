@@ -19,19 +19,13 @@ module PagesHelper
     return "#" unless page
     _locale = I18n.locale
     I18n.locale = locale
-    _url = if page.is_link_url
-      page.link_url
-    elsif page.redirect_to_first_sub_page
-      page.children.published.any? ? url_to_page(page.children.published.first) : "#"
-    else
-      page_path(locale, page)
-    end
+    _url = page.url
     I18n.locale = _locale
     return _url
   end
 
   def link_to_page(page, link_name=nil)
-    link_to (link_name || page.title), url_to_page(page)
+    link_to (link_name || page.title), page.url
   end
 
   def s(name)

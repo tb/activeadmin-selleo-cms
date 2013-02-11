@@ -55,15 +55,17 @@ module ActiveadminSelleoCms
     class Translation
       attr_protected :id
 
-      has_many :attachments, as: :assetable
-      has_many :images, as: :assetable
-      has_one :attachment, as: :assetable
-      has_one :image, as: :assetable
+      has_many :attachments, as: :assetable, dependent: :destroy
+      has_many :images, as: :assetable, dependent: :destroy
+      has_one :attachment, as: :assetable, dependent: :destroy
+      has_one :image, as: :assetable, dependent: :destroy
+      has_many :related_items, as: :relatable, dependent: :destroy
 
-      accepts_nested_attributes_for :attachments, reject_if: lambda{ |i| i[:data].blank? }
-      accepts_nested_attributes_for :attachment, reject_if: lambda{ |i| i[:data].blank? }
+      accepts_nested_attributes_for :attachments, reject_if: lambda{ |a| a[:data].blank? }
+      accepts_nested_attributes_for :attachment, reject_if: lambda{ |a| a[:data].blank? }
       accepts_nested_attributes_for :image, reject_if: lambda{ |i| i[:data].blank? }
       accepts_nested_attributes_for :images, reject_if: lambda{ |i| i[:data].blank? }
+      accepts_nested_attributes_for :related_items, reject_if: lambda{ |ri| ri[:related_url].blank? and ri[:related_id].blank? }
     end
   end
 end

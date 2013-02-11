@@ -42,8 +42,9 @@ module ActiveadminSelleoCms
       def initialize(node)
         @name = node.attributes["name"].content
         @type = node.attributes["data-type"] ? node.attributes["data-type"].content : 'ckeditor'
-        @attachments = (['files'].include?(@type) or node.attributes["data-attachments"]) ? true : false
-        @attachment = (['file'].include?(@type) or node.attributes["data-attachment"]) ? true : false
+        @attachments =  node.attributes["data-attachments"] ? node.attributes["data-attachments"].content.eql?("true") : false
+        @attachment =  node.attributes["data-attachment"] ? node.attributes["data-attachment"].content.eql?("true") : false
+        @related =  node.attributes["data-related"] ? node.attributes["data-related"].content.eql?("true") : false
         @toolbar = node.attributes["data-toolbar"] ? node.attributes["data-toolbar"].content : 'Minimal'
         @width = node.attributes["data-width"] ? node.attributes["data-width"].content : 640
         @height = node.attributes["data-height"] ? node.attributes["data-height"].content : 480
@@ -63,11 +64,15 @@ module ActiveadminSelleoCms
       end
 
       def attachments?
-        @attachments == true
+        ['files'].include?(@type.downcase) or @attachments
       end
 
       def attachment?
-        @attachment == true
+        ['file'].include?(@type.downcase) or @attachment
+      end
+
+      def related?
+        ['related'].include?(@type.downcase) or @related
       end
 
     end

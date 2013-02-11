@@ -10,19 +10,14 @@ module ActiveadminSelleoCms
 
     attr_protected :id
 
-    has_many :sections, as: :sectionable
-    has_many :attachments, as: :assetable
-    has_many :assets, as: :assetable
-    has_many :searches, as: :searchable
-    # ZUO
-    #has_many :translations, class_name: 'ActiveadminSelleoCms::Page::Translation', foreign_key: :activeadmin_selleo_cms_page_id, dependent: :destroy, before_add: :set_nest
+    has_many :sections, as: :sectionable, dependent: :destroy
+    has_many :searches, as: :searchable, dependent: :destroy
+    has_many :related_items, as: :related
 
-    accepts_nested_attributes_for :translations, :sections, :children, :attachments
+    accepts_nested_attributes_for :translations, :sections, :children
 
     validates_format_of :link_url, with: /^http/i, allow_blank: false, if: ->(page) { page.is_link_url }
     validates_presence_of :layout_name
-    # ZUO
-    #validates_associated :translations, :sections
 
     scope :show_in_menu, where(show_in_menu: true)
     scope :published, where(is_published: true)
@@ -123,6 +118,10 @@ module ActiveadminSelleoCms
         return false
       end
     end
+
+    #def method_missing(sym, *args)
+    #  sections.with_name(sym).first
+    #end
 
     class Translation
       attr_protected :id

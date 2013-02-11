@@ -1,4 +1,4 @@
-ActiveAdmin.register ActiveadminSelleoCms::Asset, { as: 'Asset' } do
+ActiveAdmin.register ActiveadminSelleoCms::RelatedItem, { as: 'RelatedItem' } do
   config.batch_actions = false
   menu false
 

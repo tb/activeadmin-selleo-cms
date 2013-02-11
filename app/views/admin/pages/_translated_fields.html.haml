@@ -24,6 +24,7 @@
                 = image_form.input :image_height, as: :hidden, value: section.height
                 = image_form.input :resize_method, as: :hidden, value: section.resize_method
                 = image_form.input :data, label: "File to upload", input_html: { multiple: false }, hint: (section_form_translated.object.image ? section_form_translated.template.image_tag(section_form_translated.object.image.url) : "No icon uploaded yet" )
+                = image_form.input :caption
 
             - elsif section.images?
               = section_form_translated.inputs section.name.titleize, for: [:images, ActiveadminSelleoCms::Image.new] do |image_form|
@@ -31,6 +32,7 @@
                 = image_form.input :image_height, as: :hidden, value: section.height
                 = image_form.input :resize_method, as: :hidden, value: section.resize_method
                 = image_form.input :data, label: "File to upload", input_html: { multiple: false }
+                = image_form.input :caption
                 - unless section_form_translated.object.new_record?
                   - section_form_translated.object.images.each do |image|
                     %li{"data-asset-id" => image.id}
@@ -45,21 +47,38 @@
                 = attachment_form.input :caption
 
             = section_form_translated.input :locale, :as => :hidden, :label => false
+
             - if section.attachments?
-              = section_form_translated.inputs "#{section.name.titleize} attachments", for: [:attachments, ActiveadminSelleoCms::Attachment.new] do |attachment_form|
+              = section_form_translated.inputs "#{section.name.titleize} attachments", for: [:attachments, section_form_translated.object.attachments.detect{|a| a.new_record?} || ActiveadminSelleoCms::Attachment.new] do |attachment_form|
                 = attachment_form.input :data, label: "File to upload"
                 = attachment_form.input :cover, label: "Cover image"
                 = attachment_form.input :caption
                 - if section_form_translated.object.attachments.any? and !section_form_translated.object.new_record?
                   %li Existing files
                   - section_form_translated.object.attachments.each do |attachment|
-                    %li{"data-asset-id" => attachment.id}
-                      %label File
-                      .attachment
-                        .cover-image= image_tag(attachment.cover.url) if attachment.cover.exists?
-                        .file-name= attachment.data_file_name
-                        .caption= attachment.caption
-                        .delete-link= link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
+                    - unless attachment.new_record?
+                      %li{"data-asset-id" => attachment.id}
+                        %label File
+                        .attachment
+                          .cover-image= image_tag(attachment.cover.url) if attachment.cover.exists?
+                          .file-name= attachment.data_file_name
+                          .caption= attachment.caption
+                          .delete-link= link_to_function "Delete", "delete_asset(#{@page.id}, #{attachment.id})"
+
+            - if section.related?
+              = section_form_translated.inputs "#{section.name.titleize}", for: [:related_items, section_form_translated.object.related_items.detect{|ri| ri.new_record?} || ActiveadminSelleoCms::RelatedItem.new] do |related_form|
+                = related_form.input :related_url
+                = related_form.input :title
+                - if section_form_translated.object.related_items.any? and !section_form_translated.object.new_record?
+                  %li Related links
+                  - section_form_translated.object.related_items.each do |related_item|
+                    - unless related_item.new_record?
+                      %li{"data-related-item-id" => related_item.id}
+                        %label Link
+                        .related
+                          .related-item= link_to related_item.target_title, related_item.target_url, target: '_blank'
+                          .delete-link= link_to_function "Delete", "delete_related(#{@page.id}, #{related_item.id})"
+
           - else
             = ""
 

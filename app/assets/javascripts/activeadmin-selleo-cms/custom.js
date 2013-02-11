@@ -20,10 +20,17 @@ function delete_asset(page_id, asset_id) {
     $.ajax({
         url: '/admin/assets/' + asset_id + '.js',
         type: 'DELETE'
-    }).success(function(){
-        $('[data-attachment-id="' + asset_id + '"]').remove();
     }).error(function(){
         alert('Could not delete attachment');
+    });
+}
+
+function delete_related(page_id, related_item_id) {
+    $.ajax({
+        url: '/admin/related_items/' + related_item_id + '.js',
+        type: 'DELETE'
+    }).error(function(){
+        alert('Could not delete related item');
     });
 }
 
