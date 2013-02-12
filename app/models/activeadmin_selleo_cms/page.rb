@@ -11,7 +11,7 @@ module ActiveadminSelleoCms
     attr_protected :id
 
     has_many :sections, as: :sectionable, dependent: :destroy
-    has_many :searches, as: :searchable, dependent: :destroy
+    has_many :searches, as: :searchable
     has_many :related_items, as: :related
 
     accepts_nested_attributes_for :translations, :sections, :children
