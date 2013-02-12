@@ -4,8 +4,7 @@ class CreateActiveadminSelleoCmsRelatedItems < ActiveRecord::Migration
       t.integer :relatable_id
       t.string  :relatable_type
 
-      t.integer :related_id
-      t.string  :related_type
+      t.belongs_to :page
 
       t.string  :related_url
 

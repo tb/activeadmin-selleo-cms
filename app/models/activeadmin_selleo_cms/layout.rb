@@ -37,7 +37,7 @@ module ActiveadminSelleoCms
     end
 
     class Section
-      attr_accessor :name, :type, :toolbar, :width, :height, :resize_method
+      attr_accessor :name, :type, :toolbar, :width, :height, :resize_method, :cover_width, :cover_height, :cover_resize_method
 
       def initialize(node)
         @name = node.attributes["name"].content
@@ -49,6 +49,9 @@ module ActiveadminSelleoCms
         @width = node.attributes["data-width"] ? node.attributes["data-width"].content : 640
         @height = node.attributes["data-height"] ? node.attributes["data-height"].content : 480
         @resize_method = node.attributes["data-resize-method"] ? node.attributes["data-resize-method"].content : "#"
+        @cover_width = node.attributes["data-cover-width"] ? node.attributes["data-cover-width"].content : 140
+        @cover_height = node.attributes["data-cover-height"] ? node.attributes["data-cover-height"].content : 199
+        @cover_resize_method = node.attributes["data-cover-resize-method"] ? node.attributes["data-cover-resize-method"].content : ">"
       end
 
       def text?

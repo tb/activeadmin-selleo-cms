@@ -65,7 +65,7 @@ module ActiveadminSelleoCms
       accepts_nested_attributes_for :attachment, reject_if: lambda{ |a| a[:data].blank? }
       accepts_nested_attributes_for :image, reject_if: lambda{ |i| i[:data].blank? }
       accepts_nested_attributes_for :images, reject_if: lambda{ |i| i[:data].blank? }
-      accepts_nested_attributes_for :related_items, reject_if: lambda{ |ri| ri[:related_url].blank? and ri[:related_id].blank? }
+      accepts_nested_attributes_for :related_items, reject_if: lambda{ |ri| ri[:related_url].blank? and ri[:page_id].blank? }
     end
   end
 end

@@ -74,6 +74,10 @@ module ActiveadminSelleoCms
       title
     end
 
+    def to_label
+      "#{'- ' * depth} #{title}"
+    end
+
     def section_names
       @section_names ||= layout.section_names
     end

@@ -43,6 +43,9 @@
             - elsif section.attachment?
               = section_form_translated.inputs section.name.titleize, for: [:attachment, section_form_translated.object.image || ActiveadminSelleoCms::Attachment.new] do |attachment_form|
                 = attachment_form.input :data, label: "File to upload", input_html: { multiple: false }, hint: (section_form_translated.object.image ? link_to(section_form_translated.object.image.url) : "No file uploaded yet" )
+                = attachment_form.input :cover_width, as: :hidden, value: section.cover_width
+                = attachment_form.input :cover_height, as: :hidden, value: section.cover_height
+                = attachment_form.input :cover_resize_method, as: :hidden, value: section.cover_resize_method
                 = attachment_form.input :cover, label: "Cover image"
                 = attachment_form.input :caption
 
@@ -51,6 +54,9 @@
             - if section.attachments?
               = section_form_translated.inputs "#{section.name.titleize} attachments", for: [:attachments, section_form_translated.object.attachments.detect{|a| a.new_record?} || ActiveadminSelleoCms::Attachment.new] do |attachment_form|
                 = attachment_form.input :data, label: "File to upload"
+                = attachment_form.input :cover_image_width, as: :hidden, value: section.cover_width
+                = attachment_form.input :cover_image_height, as: :hidden, value: section.cover_height
+                = attachment_form.input :cover_resize_method, as: :hidden, value: section.cover_resize_method
                 = attachment_form.input :cover, label: "Cover image"
                 = attachment_form.input :caption
                 - if section_form_translated.object.attachments.any? and !section_form_translated.object.new_record?
@@ -67,8 +73,10 @@
 
             - if section.related?
               = section_form_translated.inputs "#{section.name.titleize}", for: [:related_items, section_form_translated.object.related_items.detect{|ri| ri.new_record?} || ActiveadminSelleoCms::RelatedItem.new] do |related_form|
-                = related_form.input :related_url
                 = related_form.input :title
+                = related_form.input :related_url
+                %li or
+                = related_form.input :page, collection: ActiveadminSelleoCms::Page.published.reorder("lft"), label: 'Related page'
                 - if section_form_translated.object.related_items.any? and !section_form_translated.object.new_record?
                   %li Related links
                   - section_form_translated.object.related_items.each do |related_item|

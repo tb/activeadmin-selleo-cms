@@ -1,6 +1,6 @@
 module ActiveadminSelleoCms
   class Image < ActiveadminSelleoCms::Asset
-    attr_accessor :image_width, :image_height, :resize_method
+    attr_accessor :image_width, :image_height, :resize_method, :cover_width, :cover_height
 
     has_attached_file :data,
                       :url  => "/system/cms/images/:id/:style_:basename.:extension",
