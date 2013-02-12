@@ -13,7 +13,7 @@ module ActiveadminSelleoCms
     end
 
     def target_url
-      related_url.present? ? related_url : "page.url"
+      related_url.present? ? related_url : page.url
     end
 
   end
