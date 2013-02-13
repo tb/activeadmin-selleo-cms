@@ -40,7 +40,7 @@ module ActiveadminSelleoCms
     end
 
     after_initialize do
-      self.layout_name = Layout.all.first if new_record? and layout_name.blank?
+      self.layout_name = Layout.all.first if (new_record? and layout_name.blank?) or (read_attribute(:layout_name) and !layout)
     end
 
     after_initialize do
