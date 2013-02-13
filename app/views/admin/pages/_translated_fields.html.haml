@@ -54,8 +54,8 @@
             - if section.attachments?
               = section_form_translated.inputs "#{section.name.titleize} attachments", for: [:attachments, section_form_translated.object.attachments.detect{|a| a.new_record?} || ActiveadminSelleoCms::Attachment.new] do |attachment_form|
                 = attachment_form.input :data, label: "File to upload"
-                = attachment_form.input :cover_image_width, as: :hidden, value: section.cover_width
-                = attachment_form.input :cover_image_height, as: :hidden, value: section.cover_height
+                = attachment_form.input :cover_width, as: :hidden, value: section.cover_width
+                = attachment_form.input :cover_height, as: :hidden, value: section.cover_height
                 = attachment_form.input :cover_resize_method, as: :hidden, value: section.cover_resize_method
                 = attachment_form.input :cover, label: "Cover image"
                 = attachment_form.input :caption
