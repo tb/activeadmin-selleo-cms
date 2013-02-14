@@ -10,6 +10,7 @@
   = form.inputs general_options(@page) do
     = form.input :layout_name, collection: ActiveadminSelleoCms::Layout.all.sort, include_blank: false, hint: "The form will reload on change"
     = form.input :parent_id, as: :select, collection: nested_set_options(ActiveadminSelleoCms::Page, @page) {|i| "#{'-' * i.level} #{i.title}" }
+    = form.input :show_in_menu, as: :boolean
     = form.input :is_published, as: :boolean, input_html: { checked: @page.published_at.present? }
     = form.input :published_at, as: :datetimepicker
     = form.input :redirect_to_first_sub_page, as: :boolean

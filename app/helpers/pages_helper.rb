@@ -24,8 +24,8 @@ module PagesHelper
     return _url
   end
 
-  def link_to_page(page, link_name=nil)
-    link_to (link_name || page.title), page.url
+  def link_to_page(page, link_name=nil, options={})
+    link_to (link_name || page.title), page.url, options
   end
 
   def s(name)
