@@ -16,7 +16,7 @@
             - section = @page.layout.find_section(section_form.object.name)
 
             - if section.text?
-              = section_form_translated.input :body, as: section.type, label: section.name.titleize, input_html: { toolbar: section.toolbar }
+              = section_form_translated.input :body, as: section.type, label: section.name.titleize, input_html: { ckeditor: { toolbar: section.toolbar } }
 
             - elsif section.image?
               = section_form_translated.inputs section.name.titleize, for: [:image, section_form_translated.object.image || ActiveadminSelleoCms::Image.new] do |image_form|
