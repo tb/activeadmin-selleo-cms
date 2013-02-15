@@ -35,7 +35,7 @@ class PagesController < CmsController
   def index
     respond_to do |format|
       format.html { redirect_to page_path(I18n.locale, ActiveadminSelleoCms::Page.root) }
-      format.json { render text: ActiveadminSelleoCms::Page.published.map{|p| [p.title, p.url(locale: false)]}.to_json }
+      format.json { render text: ActiveadminSelleoCms::Page.published.reorder("lft ASC").map{|p| [p.to_label, p.url(locale: false)]}.to_json }
     end
   end
 end
