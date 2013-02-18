@@ -67,13 +67,13 @@
 
         $("input[id$='_title']").blur(function(){
           slugId = '#' + $(this).attr('id').replace('_title', '_slug');
-          if ($(slugId).attr('value') == '') {
-            $(slugId).attr('value', slug($(this).attr('value')) )
+          if ($(slugId).val().toString() == '')  {
+            $(slugId).attr('value', slug($(this).val().toString()) )
           }
 
           browserTitleId = '#' + $(this).attr('id').replace('_title', '_browser_title');
-          if ($(browserTitleId).attr('value') == '') {
-            $(browserTitleId).attr('value', $(this).attr('value') )
+          if ($(browserTitleId).val().toString() == '') {
+            $(browserTitleId).attr('value', $(this).val().toString() )
           }
         });
 

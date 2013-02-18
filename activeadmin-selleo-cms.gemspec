@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.11"
-  s.add_dependency "jquery-rails"
+  s.add_dependency "jquery-rails", "~> 2.2.1"
   s.add_dependency "activeadmin", "~> 0.5.1"
   s.add_dependency "globalize3", "~> 0.3.0"
   s.add_dependency "ckeditor", "3.7.3"
