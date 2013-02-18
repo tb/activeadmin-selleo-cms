@@ -16,8 +16,6 @@ module ActiveadminSelleoCms
       page.published_at.should be_nil
       page.update_attribute(:is_published, true)
       page.published_at.should be_a_kind_of ActiveSupport::TimeWithZone
-      page.update_attribute(:is_published, false)
-      page.published_at.should be_nil
     end
 
     it "should set default layout name" do

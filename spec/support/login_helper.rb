@@ -4,5 +4,5 @@ def login_admin
     fill_in 'user_email', :with => 'admin@example.com'
     fill_in 'user_password', :with => 'password'
   end
-  click_button 'Login'
+  find('input[type="submit"]').click
 end
