@@ -1,5 +1,5 @@
 - @page.sections.each do |section|
-  - section.initialize_missing_translations
+  - section.create_missing_translations unless @page.new_record?
 = form.inputs "#{locale.name} translation" do
   %ol
     = form.input :title
@@ -20,10 +20,12 @@
 
             - elsif section.image?
               = section_form_translated.inputs section.name.titleize, for: [:image, section_form_translated.object.image || ActiveadminSelleoCms::Image.new] do |image_form|
+                = section_form.input :id, as: :hidden
+                = section_form_translated.input :id, as: :hidden
                 = image_form.input :image_width, as: :hidden, value: section.width
                 = image_form.input :image_height, as: :hidden, value: section.height
                 = image_form.input :resize_method, as: :hidden, value: section.resize_method
-                = image_form.input :data, label: "File to upload", input_html: { multiple: false }, hint: (section_form_translated.object.image ? section_form_translated.template.image_tag(section_form_translated.object.image.url) : "No icon uploaded yet" )
+                = image_form.input :data, label: "File to upload", input_html: { multiple: false, data: { "url" => admin_page_path(@page.id), } }, hint: (section_form_translated.object.image ? section_form_translated.template.image_tag(section_form_translated.object.image.url) : "No image uploaded yet" )
                 = image_form.input :caption
 
             - elsif section.images?

@@ -70,6 +70,12 @@ module ActiveadminSelleoCms
       end
     end
 
+    def create_missing_sections
+      section_names.each do |section_name|
+        sections.create(name: section_name) unless sections.detect{|section| section.name == section_name}
+      end
+    end
+
     def to_s
       title
     end
@@ -95,7 +101,7 @@ module ActiveadminSelleoCms
     end
 
     def breadcrumb
-      self_and_ancestors.map(&:title).join(' &raquo; ').html_safe
+      self_and_ancestors.map{|p| p.translated_attribute(:title, I18n.default_locale)}.join(' &raquo; ').html_safe
     end
 
     def url(options={locale: true})
@@ -123,17 +129,17 @@ module ActiveadminSelleoCms
       end
     end
 
-    #def method_missing(sym, *args)
-    #  sections.with_name(sym).first
-    #end
+    def method_missing(sym, *args)
+      sections.with_name(sym).first
+    end
 
     class Translation
       attr_protected :id
 
       belongs_to :activeadmin_selleo_cms_page, class_name: 'ActiveadminSelleoCms::Page'
 
-      validates :title, presence: true, if: ->(translation){ translation.locale.eql? I18n.locale }
-      validates :slug, presence: true, format: { with: /^[a-z0-9\-_]+$/i }, if: ->(translation) { translation.locale.eql? I18n.locale }
+      validates :title, presence: true, if: ->(translation){ translation.locale.eql? I18n.default_locale }
+      validates :slug, presence: true, format: { with: /^[a-z0-9\-_]+$/i }, if: ->(translation) { translation.locale.eql? I18n.default_locale }
       validate do |translation|
         if slug.present? and translation.class.joins(:activeadmin_selleo_cms_page).
             where(locale: locale, slug: slug, activeadmin_selleo_cms_pages: { parent_id: activeadmin_selleo_cms_page.parent_id }).all.reject{|p| p == self}.any?

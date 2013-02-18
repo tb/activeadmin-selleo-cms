@@ -7,6 +7,7 @@ module ActiveadminSelleoCms
 
     scope :enabled, where(enabled: true)
     scope :available_locales, enabled
+    scope :exclude, ->(codes){ where("code NOT IN (?)", Array(codes)) }
 
     scope :popular, where(code: %w(da de el en es fr hu it lt lv nl no pl pt ru sk sl sv))
 

@@ -1,7 +1,7 @@
 = semantic_form_for [:admin, @section], url: (@section.new_record? ? admin_sections_path : admin_section_path(@section.id)), html: { multipart: true } do |form|
 
   = form.input :name, as: :hidden, label: false
-  - @section.initialize_missing_translations
+  - @section.new_record? ? @section.initialize_missing_translations : @section.create_missing_translations
   - current_locale = ActiveadminSelleoCms::Locale.find_by_code(I18n.locale)
 
   .language-tabs
