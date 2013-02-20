@@ -6,4 +6,5 @@ test:
   pool: 5
   username: raven
   password: secret
+  host: localhost
 
