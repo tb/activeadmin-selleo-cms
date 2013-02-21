@@ -48,7 +48,7 @@ $(function(){
         $.ajax({
             url: $(evt.target).data('route') + '.js',
             type: 'PUT',
-            data: { 'value': $(evt.target).attr('value'), 'locale': $(evt.target).data('locale'), 'key': $(evt.target).data('key') }
+            data: { 'value': $(evt.target).val(), 'locale': $(evt.target).data('locale'), 'key': $(evt.target).data('key') }
         })
     });
 
