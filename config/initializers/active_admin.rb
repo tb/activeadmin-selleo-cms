@@ -1,4 +1,4 @@
-ActiveAdmin.setup do |config|
+ActiveAdmin.application.tap do |config|
   config.register_javascript 'active_admin/base.js'
   config.register_javascript 'ckeditor/init.js'
   config.register_javascript 'activeadmin-selleo-cms/custom.js'
